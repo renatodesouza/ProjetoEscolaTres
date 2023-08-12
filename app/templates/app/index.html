@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Escola</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Side Navigation -->
+
+<div class="w3-bar w3-theme">
+  <a href="#" class="w3-bar-item w3-button w3-padding-16">Home</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-16"></a>
+  <div class="w3-dropdown-hover">
+    <button class="w3-button w3-padding-16">
+      Cursos <i class="fa fa-caret-down"></i>
+    </button>
+
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+      {% for curso in cursos %}
+        <a href="{% url 'app:curso' curso.id %}" class="w3-bar-item w3-button">{{ curso.nome }}</a>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>    
+
+<!-- Header -->
+
+<div class="w3-content" style="max-width:1300px;position:relative">
+<hr>
+<!-- The Tour Section -->
+<div class="w3-black" id="tour">
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+    <h2 class="w3-wide w3-center">Conheça os cursos</h2>
+    <p class="w3-opacity w3-center"><i>Graduação e Pós Graduação</i></p><br>
+
+    
+    <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
+      {% for curso in cursos %}
+      <div class="w3-third w3-margin-bottom">
+        
+        <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="width:100%; height: 200px;" class="w3-hover-opacity">
+       
+        <div class="w3-container w3-white">
+          <p><b>{{ curso.nome }}</b></p>
+          <p class="w3-opacity">{{ curso.modalidade }}</p>
+          <p>{{ curso.descricao }}</p>
+          <a href="{% url 'app:curso' curso.id %}" class="w3-button w3-black">Conheça o curso</a>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </div>
+  </div>
+</div>
+<hr>
+
+<!-- Footer -->
+<div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+  <h2 class="w3-wide w3-center">CONTATO</h2>
+  <p class="w3-opacity w3-center"><i></i></p>
+  <div class="w3-row w3-padding-32">
+    <div class="w3-col m6 w3-large w3-margin-bottom">
+      <i class="fa fa-map-marker" style="width:30px"></i>São Paulo<br>
+      <i class="fa fa-phone" style="width:30px"></i> Phone: 00 00000-0000<br>
+      <i class="fa fa-envelope" style="width:30px"> </i> Email: mail@mail.com<br>
+    </div>
+    <div class="w3-col m6">
+      <form action="/action_page.php" target="_blank">
+        <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+          <div class="w3-half">
+            <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+          </div>
+          <div class="w3-half">
+            <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+          </div>
+        </div>
+        <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
+        <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
+<script>
+// Side navigation
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "100%";
+  x.style.fontSize = "40px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
+}
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
+// Tabs
+function openCity(evt, cityName) {
+  var i;
+  var x = document.getElementsByClassName("city");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  var activebtn = document.getElementsByClassName("testbtn");
+  for (i = 0; i < x.length; i++) {
+    activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " w3-dark-grey";
+}
+
+var mybtn = document.getElementsByClassName("testbtn")[0];
+mybtn.click();
+
+// Accordions
+function myAccFunc(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Slideshows
+var slideIndex = 1;
+
+function plusDivs(n) {
+  slideIndex = slideIndex + n;
+  showDivs(slideIndex);
+}
+
+function showDivs(n) {
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = x.length} ;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}
+
+showDivs(1);
+
+// Progress Bars
+function move() {
+  var elem = document.getElementById("myBar");   
+  var width = 5;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (width == 100) {
+      clearInterval(id);
+    } else {
+      width++; 
+      elem.style.width = width + '%'; 
+      elem.innerHTML = width * 1  + '%';
+    }
+  }
+}
+</script>
+
+</body>
+</html>

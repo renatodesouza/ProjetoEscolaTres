@@ -1,0 +1,23 @@
+.accordion-content {
+  display: none;
+}
+
+.accordion-button {
+  padding: 16px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+.accordion-content.show {
+  display: block;
+  text-align: right;
+  background-color: rgb(231, 231, 231);
+  
+}
+
+.accordion-content.active {
+    background-color: #f1f1f1;
+}

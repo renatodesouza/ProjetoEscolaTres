@@ -1,0 +1,304 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
+</style>
+</head>
+<body class="w3-theme-l5">
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+    <a href="{% url 'app:index' %}" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right" style="height:40px;"></i>Home</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
+    <!-- CRIAR NOTIFICACOES PARA AVISAR SOBRE ATIVIDADES -->
+    <div class="w3-dropdown-hover w3-hide-small">
+      <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">{{ atividades.count }}</span></button>     
+      <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+        {% for atividade in atividades %}
+        <a href="#" class="w3-bar-item w3-button">{{ atividade.titulo }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- FIM NOTIFICACOES -->
+    
+    <!-- IMAGEM DO ALUNO -->
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+      <img src="{{ aluno.imagem.url }}" class="w3-circle" style="height:40px;width:40px" alt="Avatar">
+    </a>
+    <!-- FIM IMAGEM ALUNO -->
+  </div>
+</div>
+
+<!-- Navbar on small screens -->
+<div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
+</div>
+
+<!-- Page Container -->
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
+  <!-- The Grid -->
+  <div class="w3-row">
+    <!-- INFORMACOES DO ALUNO FOTO RA ETC... -->
+    <!-- Left Column -->
+    <div class="w3-col m3">
+      <!-- Profile -->
+      <div class="w3-card w3-round w3-white">
+        <div class="w3-container">
+         
+         <p class="w3-center"><img src="{{ aluno.imagem.url }}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <h4 class="w3-center">{{ aluno.usuario.first_name }}</h4>
+         <hr>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>RA: {{ aluno.ra }}</p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Turma: {{ turma.turma }}</p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Semestre: {{ turma.semestre }}</p>
+         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>{{ curso }}</p>
+        </div>
+      </div>
+      <br>
+      
+      <!-- Accordion -->
+      <div class="w3-card w3-round">
+        <div class="w3-white">
+          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i>Disciplinas</button>
+          <div id="Demo1" class="w3-hide w3-container">
+            {% for disciplina in disciplinas %}
+            <div>
+              <a href="">{{ disciplina.nome }}</a>
+            </div>
+            {% endfor %}
+          </div>
+          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
+          <div id="Demo2" class="w3-hide w3-container">
+            <p>Some other text..</p>
+          </div>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
+          <div id="Demo3" class="w3-hide w3-container">
+         <div class="w3-row-padding">
+         <br>
+           <div class="w3-half">
+             <img src="/w3images/lights.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/mountains.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/forest.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="/w3images/snow.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+         </div>
+          </div>
+        </div>      
+      </div>
+      <br>
+      
+      <!-- Interests --> 
+      <div class="w3-card w3-round w3-white w3-hide-small">
+        <div class="w3-container">
+          <p>Cursos</p>
+          <p>
+            {% for curso in cursos %}
+            <a href="{% url 'app:curso' curso.id %}"><span class="w3-tag w3-small w3-theme-d5">{{ curso.nome }}</span></a>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+      <br>
+      
+      
+    </div>
+    
+    <!-- Middle Column -->
+    <div class="w3-col m7">
+    
+      <div class="w3-row-padding">
+        <div class="w3-col m12">
+          <div class="w3-card w3-round w3-white">
+            <div class="w3-container w3-padding">
+              <h6 class="w3-opacity">Social Media template by w3.css</h6>
+              <p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
+              <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- EXIBIR INFORMACOES IMPORTANTES DE DISCIPLINAS ATIVIDADES -->
+      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+
+        <!-- <img src="/w3images/avatar2.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px"> -->
+        
+        {% for atividade in atividades %}
+          <div>
+            <span class="w3-right w3-tag w3-small w3-theme-l2">Data de inicio: {{ atividade.dt_inicio }}</span>
+          <h3>Disciplina: {{ atividade.disciplina.nome }}</h3>
+          <h4>Atividades: {{ atividade.titulo }}</h4>
+          <hr class="w3-clear">
+          <p>{{ atividade.descricao }}</p>
+          
+          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Entregar</button> 
+          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comentário</button> 
+          <span class="w3-right w3-tag w3-small w3-theme-l2">Data de fim: {{ atividade.dt_fim }}</span>
+          <hr class="w3-clear">
+          </div>
+        {% endfor %}
+        
+        
+      </div>
+      <hr class="w3-clear">
+      <!-- FIM INFORMACOES -->
+           
+    <!-- End Middle Column -->
+    </div>
+    
+    <!-- ESPACO PARA AVISOS -->
+    <!-- Right Column -->
+    <div class="w3-col m2">
+      <div class="w3-card w3-round w3-white w3-center">
+        <div class="w3-container">
+          <p>Atividade para entregar</p>
+
+          {% for atividade in atividades_limit %}
+          <p><strong>{{ atividade.disciplina.nome }}</strong></p>
+          <p>{{ atividade.titulo }}</p>
+
+            {% if atividade.status == 'ABERTA' %}
+              <p><button onclick="document.getElementById('id01').style.display='block'"
+                class="w3-button w3-block w3-green w3-section">Entregar</button></p>
+            {% elif atividade.status == 'PRORROGADA' %}
+              <p><button onclick="document.getElementById('id01').style.display='block'"
+                 class="w3-button w3-block w3-yellow w3-section">Prorrogada</button></p>
+            {% else %}
+              <p><button class="w3-button w3-block w3-red w3-section" disabled>Fechada</button></p>
+            {% endif %}
+            
+          <hr class="w3-clear">
+          {% endfor %}
+        </div>
+      </div>
+      <br>
+
+      <!-- MODAL INICIO -->
+      <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-animate-right">
+          <header class="w3-container w3-theme-d2"> 
+            <span onclick="document.getElementById('id01').style.display='none'" 
+            class="w3-button w3-display-topright">&times;</span>
+            <h2>Entrega da atividade</h2>
+            <h3>Aluno: {{ aluno.usuario.first_name }} RA: {{ aluno.ra }}</h3>
+          </header>
+          <div class=" w3-light-grey">
+            <form class="w3-container w3-card-4 " action="/action_page.php">
+              
+                
+              <hr class="w3-clear">
+              <textarea class="w3-input w3-border" style="height: 100px;"></textarea>
+              <hr class="w3-clear">
+              <input type="file" class="w3-button w3-theme-d1 w3-margin-bottom">
+              <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fas fa-arrow-up"></i> Entregar</button>
+            </form>
+          </div>
+          <footer class="w3-container w3-theme-d2">
+            <p id="data-atual"></p>
+          </footer>
+        </div>
+      </div>
+      <!-- FIM MODAL -->
+      
+      <!-- ATIVIDADE PARA ENTREGAR -->
+      <div class="w3-card w3-round w3-white w3-center">
+        <div class="w3-container">
+          <p>Friend Request</p>
+          <img src="/w3images/avatar6.png" alt="Avatar" style="width:50%"><br>
+          <span>Jane Doe</span>
+          <div class="w3-row w3-opacity">
+            <div class="w3-half">
+              <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
+            </div>
+            <div class="w3-half">
+              <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      
+    <!-- End Right Column -->
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+<!-- End Page Container -->
+</div>
+<br>
+
+<!-- Footer -->
+<footer class="w3-container w3-theme-d3 w3-padding-16">
+  <h5>Footer</h5>
+</footer>
+
+<footer class="w3-container w3-theme-d5">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+ 
+<script>
+// Accordion
+function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-theme-d1";
+  } else { 
+    x.className = x.className.replace("w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-theme-d1", "");
+  }
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Função para exibir a data atual
+function exibirDataAtual() {
+      var elementoDataAtual = document.getElementById("data-atual");
+      var dataAtual = new Date();
+      var dataFormatada = dataAtual.toLocaleDateString();
+      elementoDataAtual.innerHTML = dataFormatada;
+    }
+
+    // Chamar a função para exibir a data atual
+    exibirDataAtual();
+</script>
+
+</body>
+</html> 

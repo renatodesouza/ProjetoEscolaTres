@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Importar Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <title>Curso</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'app:index' %}">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'app:create' %}">Criar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'app:cursos' %}">Cursos</a>
+            </li> 
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+      <!--Criacao de curso-->
+      {% block content_curso_create %}
+      {% endblock %}
+
+      <!--Edicao de curso-->
+      {% block content_edita_curso %}
+      {% endblock %}
+   
+    
+
+    <!--Inicio da tabela-->
+    <div class="container">
+        {% block content_cursos %}
+        {% endblock %}
+    </div>
+    <!--Fim da tabela-->
+
+    
+  <script>
+    $(document).ready(function() {
+        $('.coordenador-item').click(function(e) {
+            e.preventDefault();
+            var coordenadorValue = $(this).data('value');
+            var coordenadorNome = $(this).text();  // Obtém o texto do elemento clicado
+
+            console.log(coordenadorValue, coordenadorNome);
+            
+            $('#coordenador-input').val(coordenadorValue);
+            $('#coordenador-nome').text(coordenadorNome);
+        });
+        $('.periodo-item').click(function(e) {
+            e.preventDefault();
+            var periodoValue = $(this).data('value');
+            $('#periodo-input').val(periodoValue);
+        });
+        $('.modalidade-item').click(function(e) {
+            e.preventDefault();
+            var modalidadeValue = $(this).data('value');
+            $('#modalidade-input').val(modalidadeValue);
+        });
+    });
+  </script>
+</html>

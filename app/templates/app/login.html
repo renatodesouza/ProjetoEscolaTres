@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <title>Login</title>
+</head>
+<body>
+    <div class="container mb-3 mt-3">
+        <div class="row">
+            <div class="col-sm-6">
+                <form action="" class="was-validated">
+                    {% csrf_token %}
+                    <label for="uname" class="dorm-label">Username:</label>
+                    <input type="text" class="form-control" id="uname" name="uname" placeholder="Enter Username">
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field</div>
+                    <div class="mb-3">
+                        <label for="pwd" class="form-label">Password:</label>
+                        <input type="password" class="form-control" id="pwd" name="pswd", placeholder="Enter your password" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="onvalid-feedback">Please fill out this field</div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" id="myCheck" class="form-check-input" name="remember-me" required>
+                        <label for="myCheck" class="form-check-label">I agree on blabla</label>
+                        <div class="valid-feedback">Valid.</div>
+                        <div>Check this checkbox to continue</div>
+                    </div>
+                    <button form="submit" class="btn btn-primary">Logar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <section class="container mt-2">
+        <form action="{% url 'app:usuario' %}" method="POST">
+            {% csrf_token %}
+            {{ forms }}
+            <input type="submit" value="OK" class="btn btn-success">
+        </form>
+    </section>
+</body>
+</html>
