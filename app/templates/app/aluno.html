@@ -1,46 +1,9 @@
+{% extends 'app/base_usuario.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
-</style>
-</head>
-<body class="w3-theme-l5">
 
+{% block content_aluno %}
 <!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="{% url 'app:index' %}" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right" style="height:40px;"></i>Home</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
-    <!-- CRIAR NOTIFICACOES PARA AVISAR SOBRE ATIVIDADES -->
-    <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">{{ atividades.count }}</span></button>     
-      <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-        {% for atividade in atividades %}
-        <a href="#" class="w3-bar-item w3-button">{{ atividade.titulo }}</a>
-        {% endfor %}
-      </div>
-    </div>
-    <!-- FIM NOTIFICACOES -->
-    
-    <!-- IMAGEM DO ALUNO -->
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-      <img src="{{ aluno.imagem.url }}" class="w3-circle" style="height:40px;width:40px" alt="Avatar">
-    </a>
-    <!-- FIM IMAGEM ALUNO -->
-  </div>
-</div>
+{% include 'app/partials/_usuario_navbar.html' %}
 
 <!-- Navbar on small screens -->
 <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
@@ -61,18 +24,19 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
          
-         <p class="w3-center"><img src="{{ aluno.imagem.url }}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
-         <h4 class="w3-center">{{ aluno.usuario.first_name }}</h4>
+         <p class="w3-center"><img src="{{ user.imagem.url }}" class="w3-circle" style="height:106px;width:106px" alt="{{ user }}"></p>
+         <h4 class="w3-center">{{ user.usuario.first_name }}</h4>
          <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>RA: {{ aluno.ra }}</p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>RA: {{ user.ra }}</p>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Turma: {{ turma.turma }}</p>
          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Semestre: {{ turma.semestre }}</p>
          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>{{ curso }}</p>
+         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>{{ user.usuario.email }}</p>
         </div>
       </div>
       <br>
       
-      <!-- Accordion -->
+      <!-- Accordion Partials-->
       <div class="w3-card w3-round">
         <div class="w3-white">
           <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i>Disciplinas</button>
@@ -115,7 +79,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       </div>
       <br>
       
-      <!-- Interests --> 
+      <!-- Interests Partials--> 
       <div class="w3-card w3-round w3-white w3-hide-small">
         <div class="w3-container">
           <p>Cursos</p>
@@ -147,25 +111,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       </div>
       <!-- EXIBIR INFORMACOES IMPORTANTES DE DISCIPLINAS ATIVIDADES -->
       <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-
         <!-- <img src="/w3images/avatar2.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px"> -->
-        
         {% for atividade in atividades %}
           <div>
             <span class="w3-right w3-tag w3-small w3-theme-l2">Data de inicio: {{ atividade.dt_inicio }}</span>
-          <h3>Disciplina: {{ atividade.disciplina.nome }}</h3>
-          <h4>Atividades: {{ atividade.titulo }}</h4>
-          <hr class="w3-clear">
-          <p>{{ atividade.descricao }}</p>
-          
-          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Entregar</button> 
-          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comentário</button> 
-          <span class="w3-right w3-tag w3-small w3-theme-l2">Data de fim: {{ atividade.dt_fim }}</span>
-          <hr class="w3-clear">
+            <h3>Disciplina: {{ atividade.disciplina.nome }}</h3>
+            <h4>Atividades: {{ atividade.titulo }}</h4>
+            <hr class="w3-clear">
+            <p>{{ atividade.descricao }}</p>
+            
+            <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Entregar</button> 
+            <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comentário</button> 
+            <span class="w3-right w3-tag w3-small w3-theme-l2">Data de fim: {{ atividade.dt_fim }}</span>
+            <hr class="w3-clear">
           </div>
         {% endfor %}
-        
-        
       </div>
       <hr class="w3-clear">
       <!-- FIM INFORMACOES -->
@@ -207,7 +167,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <span onclick="document.getElementById('id01').style.display='none'" 
             class="w3-button w3-display-topright">&times;</span>
             <h2>Entrega da atividade</h2>
-            <h3>Aluno: {{ aluno.usuario.first_name }} RA: {{ aluno.ra }}</h3>
+            <h3>user: {{ user.usuario.first_name }} RA: {{ aluno.ra }}</h3>
           </header>
           <div class=" w3-light-grey">
             <form class="w3-container w3-card-4 " action="/action_page.php">
@@ -255,50 +215,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 <br>
 
-<!-- Footer -->
-<footer class="w3-container w3-theme-d3 w3-padding-16">
-  <h5>Footer</h5>
-</footer>
-
-<footer class="w3-container w3-theme-d5">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-</footer>
- 
-<script>
-// Accordion
-function myFunction(id) {
-  var x = document.getElementById(id);
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-    x.previousElementSibling.className += " w3-theme-d1";
-  } else { 
-    x.className = x.className.replace("w3-show", "");
-    x.previousElementSibling.className = 
-    x.previousElementSibling.className.replace(" w3-theme-d1", "");
-  }
-}
-
-// Used to toggle the menu on smaller screens when clicking on the menu button
-function openNav() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
-  }
-}
-
-// Função para exibir a data atual
-function exibirDataAtual() {
-      var elementoDataAtual = document.getElementById("data-atual");
-      var dataAtual = new Date();
-      var dataFormatada = dataAtual.toLocaleDateString();
-      elementoDataAtual.innerHTML = dataFormatada;
-    }
-
-    // Chamar a função para exibir a data atual
-    exibirDataAtual();
-</script>
-
-</body>
-</html> 
+<!-- Footer Partials-->
+{% include 'app/partials/_footer.html' %}
+{% endblock %}

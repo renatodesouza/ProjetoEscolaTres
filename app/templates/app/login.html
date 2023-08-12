@@ -11,37 +11,33 @@
     <title>Login</title>
 </head>
 <body>
-    <div class="container mb-3 mt-3">
-        <div class="row">
-            <div class="col-sm-6">
-                <form action="" class="was-validated">
-                    {% csrf_token %}
-                    <label for="uname" class="dorm-label">Username:</label>
-                    <input type="text" class="form-control" id="uname" name="uname" placeholder="Enter Username">
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field</div>
-                    <div class="mb-3">
-                        <label for="pwd" class="form-label">Password:</label>
-                        <input type="password" class="form-control" id="pwd" name="pswd", placeholder="Enter your password" required>
-                        <div class="valid-feedback">Valid.</div>
-                        <div class="onvalid-feedback">Please fill out this field</div>
-                    </div>
-                    <div class="form-check mb-3">
-                        <input type="checkbox" id="myCheck" class="form-check-input" name="remember-me" required>
-                        <label for="myCheck" class="form-check-label">I agree on blabla</label>
-                        <div class="valid-feedback">Valid.</div>
-                        <div>Check this checkbox to continue</div>
-                    </div>
-                    <button form="submit" class="btn btn-primary">Logar</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    
     <section class="container mt-2">
-        <form action="{% url 'app:usuario' %}" method="POST">
+        <form action="{% url 'app:login' %}" class="bootstrap-estilo-formulario" method="POST">
             {% csrf_token %}
-            {{ forms }}
-            <input type="submit" value="OK" class="btn btn-success">
+            <div class="mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>
+                <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}" 
+                class="form-control" placeholder="{{ form.username.field.widget.attrs.placeholder }}" value="{{ form.username.value }}">
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.password.id_for_label }}" class="form-label">Senha</label>
+                <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}" class="form-control" placeholder="{{ form.password.field.widget.attrs.placeholder }}">
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.email.id_for_label }}" class="form-label">Endereço de email</label>
+                <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" class="form-control" placeholder="{{ form.email.field.widget.attrs.placeholder }}" value="{{ form.email.value }}">
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.first_name.id_for_label }}" class="form-label">Primeiro nome</label>
+                <input type="text" name="{{ form.first_name.html_name }}" id="{{ form.first_name.id_for_label }}" class="form-control" placeholder="{{ form.first_name.field.widget.attrs.placeholder }}" value="{{ form.first_name.value }}">
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.last_name.id_for_label }}" class="form-label">Último nome</label>
+                <input type="text" name="{{ form.last_name.html_name }}" id="{{ form.last_name.id_for_label }}" class="form-control" placeholder="{{ form.last_name.field.widget.attrs.placeholder }}" value="{{ form.last_name.value }}">
+            </div>
+            <button type="submit" >Login</button>
         </form>
     </section>
 </body>

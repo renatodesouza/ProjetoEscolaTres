@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,41 +18,34 @@
     <title>Curso</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'app:index' %}">Home</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'app:create' %}">Criar</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'app:cursos' %}">Cursos</a>
-            </li> 
-            
-          </ul>
-        </div>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'app:home' %}">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app:create' %}">Criar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app:cursos' %}">Cursos</a>
+          </li> 
+          
+        </ul>
       </div>
-    </nav>
-      <!--Criacao de curso-->
-      {% block content_curso_create %}
-      {% endblock %}
-
-      <!--Edicao de curso-->
-      {% block content_edita_curso %}
-      {% endblock %}
-   
-    
-
-    <!--Inicio da tabela-->
-    <div class="container">
-        {% block content_cursos %}
-        {% endblock %}
     </div>
-    <!--Fim da tabela-->
+  </nav>
+  <!--Criacao de curso-->
+  {% block content_curso_create %}{% endblock %}
+
+  <!--Edicao de curso-->
+  {% block content_edita_curso %}{% endblock %}
+
+  <!--Inicio da tabela-->
+  {% block content_cursos %}{% endblock %}
+  <!--Fim da tabela-->
 
     
   <script>

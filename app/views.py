@@ -1,21 +1,25 @@
 
+from typing import Any, Dict
 from django.db import models
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import auth
+from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView, CreateView
 from .models.curso import Curso
 from .models.turma import Turma
 from .models.aluno import Aluno
+from .models.professor import Professor
 from .models.matricula import Matricula
 from .models.atividade import Atividade
 from app.models.coordenador import Coordenador
-
+from django.urls import reverse_lazy
 from .forms import CursoForm, LoginForm
 
 
 def index(request):
     cursos = Curso.objects.all().order_by('?')
-    return render(request, 'app/index.html', context={'cursos':cursos})
+    return render(request, 'app/home.html', context={'cursos':cursos})
 
 
 def curso(request, pk):
@@ -57,7 +61,7 @@ def curso(request, pk):
 
 
 class HomeView(TemplateView):
-    template_name = 'app/index.html'
+    template_name = 'app/home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,30 +94,39 @@ class CursoView(DetailView):
 class AlunoView(DetailView):
     template_name = 'app/aluno.html'
     model = Aluno
-    context_object_name = 'aluno'
+    context_object_name = 'user'
     
     def get_queryset(self):
         self.nome = get_object_or_404(Aluno, pk=self.kwargs['pk'])
         return Aluno.objects.filter(id=self.nome.id)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(context)
         aluno = self.get_object()
-
-        matricula = Matricula.objects.get(aluno=aluno)
         cursos = Curso.objects.all()
-        
+        matricula = Matricula.objects.get(aluno=aluno)
+    
+        context = super().get_context_data(**kwargs)
+        context['cursos'] = cursos
         context['turma'] = matricula.turma
         context['curso'] = matricula.curso
-        context['cursos'] = cursos
         context['disciplinas'] = matricula.turma.disciplina.all()
         context['atividades'] = matricula.turma.atividades.all()
         context['atividades_limit'] = matricula.turma.atividades.order_by('?')[:2]
         
         return context
 
+class ProfessorView(DetailView):
+    template_name = 'app/professor.html'
+    model = Professor
+    context_object_name = 'user'
 
+    def get_queryset(self):
+        self.nome = get_object_or_404(User, pk=self.kwargs['pk'])
+        return User.objects.filter(id=self.nome.id)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 def create(request):
 
@@ -152,7 +165,9 @@ def update(request, pk):
     
     coordenadores = Coordenador.objects.all()
     context = {'curso':curso, 'coordenadores':coordenadores}
+
     print(request.method)
+    
     if request.method == 'POST':
         
         curso.nome = request.POST.get('nome')
@@ -188,13 +203,50 @@ def cursos(request):
 
 
 def login(request):
-    forms = LoginForm()
-    context = {'forms':forms}
+    
+    if request.method == 'POST':
+        nome = request.POST.get('usuario')
+        pswd = request.POST.get('pswd')
+        user = auth.authenticate(request, username=nome, password=pswd)
+        print(user.id)
+    
+        if user is not None:
+            auth.login(request, user)
+            if user.is_staff:
+                return redirect('app:professor', user.id)
+            return redirect('app:aluno', user.id)
+        return redirect('app:home')
+    
+    return render(request, 'app/login.html')
 
-    return render(request, 'app/login.html', context)
 
-def usuario(request):
+
+
+def login_dois(request):
+    return render(request, 'app/login.html')
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect('app:login_dois')
+
+def usuario_n(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         context = {'form':form}
         return render(request, 'app/usuario.html', context)
+    
+
+#---------------------------------------------------------------------------------------
+class CursoCreateViews(CreateView):
+    model = Curso
+    form_class = CursoForm
+   
+    template_name = 'app/curso_create.html'
+    success_url = reverse_lazy('app:cursos')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        context['coordenadores'] = Coordenador.objects.all()
+        return context

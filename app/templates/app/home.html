@@ -9,27 +9,51 @@
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
 </head>
 <body>
 
 <!-- Side Navigation -->
 
-<div class="w3-bar w3-theme">
-  <a href="#" class="w3-bar-item w3-button w3-padding-16">Home</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-16"></a>
-  <div class="w3-dropdown-hover">
-    <button class="w3-button w3-padding-16">
-      Cursos <i class="fa fa-caret-down"></i>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a href="{% url 'app:home' %}" class="navbar-brand">Escola</a>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+      <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-      {% for curso in cursos %}
-        <a href="{% url 'app:curso' curso.id %}" class="w3-bar-item w3-button">{{ curso.nome }}</a>
-      {% endfor %}
+    <div class="collapse navbar-collapse" id="mynavbar">
+      <ul class="navbar-nav me-auto">
+        <li class="navbar-item dropdown">
+          <a href="" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">Cursos</a>
+          <ul class="dropdown-menu">
+            {% for curso in cursos %}
+              <li><a class="dropdown-item" href="{% url 'app:curso' curso.id %}">{{ curso.nome }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+      
+      {% if user.is_authenticated %}
+      <div class="mb-3">
+        <a href="{% url 'app:logout' %}" class="btn btn-danger">Sair</a>
+      </div>
+      <div class="mb-3">
+        <a href="{% url 'app:aluno' user.id %}" class="btn btn-success">Area do aluno</a>
+      </div>
+      {% else %}
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModalLogin">
+        Login
+      </button>
+      {% endif %}
     </div>
-
   </div>
-</div>    
+</nav>    
 
 <!-- Header -->
 
@@ -40,8 +64,6 @@
   <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
     <h2 class="w3-wide w3-center">Conheça os cursos</h2>
     <p class="w3-opacity w3-center"><i>Graduação e Pós Graduação</i></p><br>
-
-    
     <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
       {% for curso in cursos %}
       <div class="w3-third w3-margin-bottom">
@@ -61,6 +83,39 @@
   </div>
 </div>
 <hr>
+<!--Modal login-->
+<div class="modal" id="myModalLogin">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!--modal header-->
+      <div class="modal-header">
+        <h4 class="modal-title">Login</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <!--modal body-->
+      <div class="modal-body">
+        <form action="{% url 'app:login' %}" method="post">
+          {% csrf_token %}
+          <div class="mb-3 mt3">
+            <label for="">Usuario</label>
+            <input type="text" class="form-control" name="usuario" placeholder="Usuario">
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="">Password</label>
+            <input type="password" class="form-control" name="pswd" placeholder="Password">
+          </div>
+          <div class="form-check mb-3">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="remember">Remember me
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fim Modal login-->
 
 <!-- Footer -->
 <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
