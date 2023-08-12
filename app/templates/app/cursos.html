@@ -1,0 +1,33 @@
+{% extends 'app/base_curso.html' %}
+
+{% block content_cursos %}
+<div class="row">
+  <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Coordenador</th>
+                <th>Periodo</th>
+                <th>Modalidade</th>
+                </tr>
+                {% for curso in cursos %}
+                <tr>
+                    <td><input type="checkbox" class="form-check-input" name="id"></td>
+                    <td><a style="text-decoration: none;" href="{% url 'app:update' curso.id %}">{{ curso.nome }}</a></td>
+                    <td class="bi bi-pen">{{ curso.descricao }}</td>
+                    <td>{{ curso.coordenador.usuario.first_name }}</td>
+                    <td>{{ curso.periodo }}</td>
+                    <td>{{ curso.modalidade }}</td>
+                </tr>
+                {% endfor %}
+            </thead>
+        </table>
+        {{ curso }}
+  </div>
+</div>
+
+
+{% endblock %}

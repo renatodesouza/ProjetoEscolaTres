@@ -1,0 +1,46 @@
+.imagem-estilizada {
+    width: 200px;
+    height: 200px;
+}
+
+.w3-table tr:hover {
+    background-color: black;
+    color: white;
+}
+
+
+/* Estilização das tags li */
+li {
+    list-style-type: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+/* Estilo para o conteúdo oculto */
+.conteudo-semestre {
+    display: none;
+    margin-left: 30px;
+}
+
+/* Estilo para a div envolvente */
+.conteudo-div {
+    background-color: #000;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo quando o mouse passar por cima das tags li */
+li:hover {
+    background-color: black;
+    color: white;
+}
+
+/* Estilo para o conteúdo aberto */
+.ativo .conteudo-semestre {
+    display: block;
+}
+
+/* Estilo para as tags h3 */
+h3 {
+    margin: 0;
+}

@@ -1,0 +1,116 @@
+{% extends 'app/base_curso.html' %}
+
+{% block content_edita_curso %}
+<div class="container p-5 my-5 border">
+    <div class="row">
+        <h3>Edição de Cursos</h3>
+        <div class="col-sm-12">
+            <form action="{% url 'app:update' curso.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="mb-3">
+                            <label for="text" class="form-label">Curso:</label>
+                            <input type="text" class="form-control" id="nome" placeholder="Curso" name="nome" value="{{ curso.nome }}">
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Descrição:</label>
+                            <textarea type="text" class="form-control" id="descricao" style="height: 100px;" placeholder="Descrição" name="descricao" required>{{ curso.descricao }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                Modalidade
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="dropdown-item modalidade-item" data-value="Presencial">Presencial</a></li>
+                                <li><a href="#" class="dropdown-item modalidade-item" data-value="Online">On-line</a></li>
+                            </ul>
+                            <input style="border: none" type="text" id="modalidade-input" name="modalidade" value="{{ curso.modalidade }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                Periodo
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="" class="dropdown-item periodo-item" data-value="Matutino">Matutino</a></li>
+                                <li><a href="" class="dropdown-item periodo-item" data-value="Noturno">Noturno</a></li>
+                                <li><a href="" class="dropdown-item periodo-item" data-value="Nao Aplica">Não Aplica</a></li>
+                            </ul>
+                            <input style="border: none" type="text" id="periodo-input" name="periodo" value="{{ curso.periodo }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                Coordenador                           
+                            </button>                            
+                            <ul class="dropdown-menu">
+                                {% for coordenador in coordenadores %} 
+                                <li>
+                                    <a href="#" class="dropdown-item coordenador-item" data-value="{{ coordenador.id }}">
+                                        {{ coordenador.usuario.first_name }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <input type="hidden" id="coordenador-input" name="coordenador" value="">
+                            <span id="coordenador-nome">{{ curso.coordenador }}</span>  
+                        </div>
+                    </div>
+                </div><br>
+                
+                <div class="row">
+                    <div class="col-sm-8">
+                        <input type="file" class="form-control" name="imagem" value="File">
+                        <span>{{ curso.imagem }}</span>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-curso">
+                            Deletar
+                        </button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Inicio do modal-->
+<div class="modal" id="modal-delete-curso">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!--Modal Header-->
+            <div class="modal-header">
+                <h4>Deletar Curso</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!--Modal Body-->
+            <div class="modal-body">
+                <h5>Tem certeza que você deseja remover o curso</h5><br>
+                <p>{{ curso.nome }}</p>
+            </div>
+            <!--Modal footer-->
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="{% url 'app:delete' curso.id %}">Sim</a>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim do modal-->
+{% endblock %}

@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static '/css/style.css' %}">
+<link rel="stylesheet" href="{% static '/css/style2.css' %}">
+</head>
+<body>
+<div class="w3-bar w3-theme">
+    <a href="{% url 'app:index' %}" class="w3-bar-item w3-button w3-padding-16">Home</a>
+    <div class="w3-dropdown-hover">
+        <button class="w3-button w3-padding-16">Cursos
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+            {% for curso in cursos %}
+              <a href="{% url 'app:curso' curso.id %}" class="w3-bar-item w3-button">{{ curso.nome }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<header class="w3-container w3-theme w3-padding" id="myHeader">
+    <div class="w3-center">
+        <h4>{{ curso.nome }}</h4>
+        <h1 class="w3-xxxlarge w3-animate-bottom">{{ curso.modalidade }}</h1>
+        <div class="w3-padding-32">
+        </div>
+    </div>
+</header>
+
+<div class="w3-container">
+    <hr>
+    <div class="w3-center">
+        <h2>Grade do curso</h2>
+        <!-- Inicio do dropdown -->
+        
+
+
+
+
+<style>
+    .accordion-content {
+      display: none;
+    }
+  
+    .accordion-button {
+      padding: 16px;
+      background-color: black;
+      color: #fff;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+    }
+  
+    .accordion-content.show {
+      display: block;
+      text-align: right;
+      background-color: rgb(231, 231, 231);
+      
+    }
+
+    .accordion-content.active {
+        background-color: #f1f1f1;
+    }
+  </style>
+  
+  
+  
+  {% for semestre_disciplinas in disciplinas_por_semestre %}
+  
+    <button class="accordion-button">{{ semestre_disciplinas.semestre }}</button>
+    <div class="accordion-content">
+        <table>
+        {% for disciplina in semestre_disciplinas.disciplinas %}
+            <tr>
+                <td>{{ disciplina.nome }}</td>
+                <td>{{ disciplina.carga_horaria }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+  {% endfor %}
+  
+  
+  
+  <script>
+    var buttons = document.getElementsByClassName("accordion-button");
+  var activeSection = null;
+
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", function() {
+      var content = this.nextElementSibling;
+      
+      if (activeSection !== null) {
+        activeSection.classList.remove("show");
+        activeSection.classList.remove("active");
+      }
+      
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+        content.classList.add("active");
+        activeSection = content;
+      }
+    });
+  }
+  </script>
+  
+
+
+
+    
+</body>
+</html>
