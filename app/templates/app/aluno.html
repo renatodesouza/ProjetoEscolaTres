@@ -24,14 +24,14 @@
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
          
-         <p class="w3-center"><img src="{{ user.imagem.url }}" class="w3-circle" style="height:106px;width:106px" alt="{{ user }}"></p>
-         <h4 class="w3-center">{{ user.usuario.first_name }}</h4>
+         <p class="w3-center"><img src="{{ aluno.imagem.url }}" class="w3-circle" style="height:106px;width:106px" alt="{{ aluno }}"></p>
+         <h4 class="w3-center">{{ aluno.usuario.first_name }}</h4>
          <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>RA: {{ user.ra }}</p>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Turma: {{ turma.turma }}</p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Semestre: {{ turma.semestre }}</p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>RA: {{ aluno.ra }}</p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> {{ turma.turma }}</p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> {{ turma.semestre }}</p>
          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>{{ curso }}</p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>{{ user.usuario.email }}</p>
+         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>{{ aluno.usuario.email }}</p>
         </div>
       </div>
       <br>
@@ -47,9 +47,11 @@
             </div>
             {% endfor %}
           </div>
-          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
+          <button onclick="document.getElementById('id02').style.display='block'"
+            class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i>Boletim</button>
+         
           <div id="Demo2" class="w3-hide w3-container">
-            <p>Some other text..</p>
+            <a href="{% url 'app:boletim' %}">Boletim</a>
           </div>
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
           <div id="Demo3" class="w3-hide w3-container">
@@ -171,8 +173,7 @@
           </header>
           <div class=" w3-light-grey">
             <form class="w3-container w3-card-4 " action="/action_page.php">
-              
-                
+              {% csrf_token %}
               <hr class="w3-clear">
               <textarea class="w3-input w3-border" style="height: 100px;"></textarea>
               <hr class="w3-clear">
@@ -186,6 +187,10 @@
         </div>
       </div>
       <!-- FIM MODAL -->
+
+      <!--Modal boletim-->
+      {% include 'app/partials/_boletim.html' %}
+      <!--Fim Modal boletim-->
       
       <!-- ATIVIDADE PARA ENTREGAR -->
       <div class="w3-card w3-round w3-white w3-center">
@@ -215,6 +220,9 @@
 </div>
 <br>
 
-<!-- Footer Partials-->
-{% include 'app/partials/_footer.html' %}
+<!-- Footer-->
+<footer class="w3-container w3-theme-d3 w3-padding-16">
+  <h5>Footer</h5>
+  <a href="https://www.flaticon.com/br/icones-gratis/logotipo-do-instagram" title="logotipo do instagram ícones">Logotipo do instagram ícones criados por Pixel perfect - Flaticon</a>
+</footer>
 {% endblock %}

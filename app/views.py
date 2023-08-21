@@ -97,21 +97,24 @@ class AlunoView(DetailView):
     context_object_name = 'user'
     
     def get_queryset(self):
-        self.nome = get_object_or_404(Aluno, pk=self.kwargs['pk'])
-        return Aluno.objects.filter(id=self.nome.id)
+        self.nome = get_object_or_404(User, pk=self.kwargs['pk'])
+        print('Aluno id', self.nome.aluno)
+        return User.objects.filter(id=self.nome.id)
 
     def get_context_data(self, **kwargs):
-        aluno = self.get_object()
-        cursos = Curso.objects.all()
-        matricula = Matricula.objects.get(aluno=aluno)
-    
+        usuario = self.request.user
         context = super().get_context_data(**kwargs)
-        context['cursos'] = cursos
+        cursos = Curso.objects.all()
+        matricula = Matricula.objects.get(aluno__usuario=usuario)
+        context['aluno'] = Aluno.objects.get(usuario=usuario)
         context['turma'] = matricula.turma
         context['curso'] = matricula.curso
         context['disciplinas'] = matricula.turma.disciplina.all()
         context['atividades'] = matricula.turma.atividades.all()
         context['atividades_limit'] = matricula.turma.atividades.order_by('?')[:2]
+        
+        context['cursos'] = cursos
+        
         
         return context
 
@@ -208,7 +211,7 @@ def login(request):
         nome = request.POST.get('usuario')
         pswd = request.POST.get('pswd')
         user = auth.authenticate(request, username=nome, password=pswd)
-        print(user.id)
+        
     
         if user is not None:
             auth.login(request, user)
@@ -217,10 +220,11 @@ def login(request):
             return redirect('app:aluno', user.id)
         return redirect('app:home')
     
-    return render(request, 'app/login.html')
+    return render(request, 'app/home.html')
 
 
-
+def boletim(request):
+    return render(request, 'app/boletim.html')
 
 def login_dois(request):
     return render(request, 'app/login.html')
@@ -228,7 +232,7 @@ def login_dois(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('app:login_dois')
+    return redirect('app:home')
 
 def usuario_n(request):
     if request.method == 'POST':

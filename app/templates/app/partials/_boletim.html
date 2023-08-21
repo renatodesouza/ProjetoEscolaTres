@@ -1,0 +1,75 @@
+<div class="modal" id="id02">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Notas e Faltas</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="container mt-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <h3>Aluno: {{ aluno }}</h3>
+                    <p>RA: {{ aluno.ra }}</p>
+                </div>
+                <div class="col-md-5">
+                    <h3>Curso: {{ curso }}</h3>
+                    <p>{{ turma.turma }} | {{ turma.semestre }}</p>
+                </div>
+            </div>            
+            <table class="table table-dark table-striped">
+              <thead>
+                <tr>
+                  <th>Disciplina</th>
+                  <th>Turma</th>
+                  <th>C.H</th>
+                  <th>Media</th>
+                  <th>Prova</th>
+                  <th>TF</th>
+                  <th>MF</th>
+                  <th>Situação</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for disciplina in disciplinas %}
+                <tr>
+                    <td>{{ disciplina.nome }}</td>
+                    <td>{{ turma }}</td>
+                    <td>{{ disciplina.carga_horaria }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="container"> 
+            <div class="row">
+              <div class="col-sm-9">
+                <p style="margin-bottom: 0%;">TF - Total Faltas</p>
+                <p style="margin-bottom: 0%;">MF - Media Final</p>
+                <p style="margin-bottom: 0%;">C.H - Carga Horaria</p>
+              </div>
+              <div class="col-sm-3" style="display: grid; justify-content: end;">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+  
+      </div>
+    </div>
+  </div>
