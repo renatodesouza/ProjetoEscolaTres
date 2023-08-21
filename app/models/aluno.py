@@ -7,7 +7,7 @@ from datetime import date
 
 class Aluno(models.Model):
     ra = models.CharField(max_length=10, unique=True, verbose_name='RA')
-    usuario = models.ForeignKey(User, on_delete=models.PROTECT)
+    usuario = models.ForeignKey(User, on_delete=models.PROTECT, related_name='aluno')
     data_expiracao = models.DateField('Data de Expiracao', default=date(year=1900, month=1, day=1))
     imagem = models.ImageField("Imagem", upload_to='imagens/', blank=True)
                                        

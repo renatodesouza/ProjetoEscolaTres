@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from .views import HomeView, CursoView, AlunoView, ProfessorView, create, delete,cursos, login, logout, login_dois
+from .views import HomeView, CursoView, AlunoView, ProfessorView, \
+create, delete,cursos, login, logout, login_dois, boletim
 from django.views.generic import TemplateView
 
 
@@ -13,6 +14,7 @@ urlpatterns = [
     path('home/', HomeView.as_view(), name='home'),
     path('curso/<int:pk>/', CursoView.as_view(), name='curso'),
     path('aluno/<int:pk>/', AlunoView.as_view(), name='aluno'),
+    path('boletim-aluno/', views.boletim, name='boletim'),
     path('professor/<int:pk>/', ProfessorView.as_view(), name='professor'),
     path('cursos/', views.cursos, name='cursos'),
 
