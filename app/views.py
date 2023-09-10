@@ -1,8 +1,8 @@
 
-from typing import Any, Dict
+from django import http
 from django.db import models
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import auth
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.views.generic import DetailView, TemplateView, CreateView
@@ -14,7 +14,10 @@ from .models.matricula import Matricula
 from .models.atividade import Atividade
 from app.models.coordenador import Coordenador
 from django.urls import reverse_lazy
-from .forms import CursoForm, LoginForm
+from .forms import CursoForm, LoginForm, EntregaAtividadeForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib import messages
 
 
 def index(request):
@@ -66,6 +69,7 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cursos'] = Curso.objects.order_by('?')[:3]
+        context['form'] = LoginForm()
 
         return context
     
@@ -96,6 +100,10 @@ class AlunoView(DetailView):
     model = Aluno
     context_object_name = 'user'
     
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     def get_queryset(self):
         self.nome = get_object_or_404(User, pk=self.kwargs['pk'])
         print('Aluno id', self.nome.aluno)
@@ -112,7 +120,7 @@ class AlunoView(DetailView):
         context['disciplinas'] = matricula.turma.disciplina.all()
         context['atividades'] = matricula.turma.atividades.all()
         context['atividades_limit'] = matricula.turma.atividades.order_by('?')[:2]
-        
+        context['entrega_form'] = EntregaAtividadeForm()
         context['cursos'] = cursos
         
         
@@ -205,7 +213,7 @@ def cursos(request):
     return render(request, 'app/cursos.html', context=context)
 
 
-def login(request):
+""" def login(request):
     
     if request.method == 'POST':
         nome = request.POST.get('usuario')
@@ -220,18 +228,42 @@ def login(request):
             return redirect('app:aluno', user.id)
         return redirect('app:home')
     
-    return render(request, 'app/home.html')
+    return render(request, 'app/home.html') """
 
 
 def boletim(request):
     return render(request, 'app/boletim.html')
 
-def login_dois(request):
-    return render(request, 'app/login.html')
 
 
-def logout(request):
-    auth.logout(request)
+
+def my_login(request): 
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            nome = form.cleaned_data['usuario']
+            pswd = form.cleaned_data['password']
+
+            user = authenticate(request, username=nome, password=pswd)
+        
+    
+        if user is not None:
+            login(request, user)
+            if user.is_staff:
+                return redirect('app:professor', user.id)
+            messages.success(request, f'Bem vindo {nome}, login efetuado com sucesso.')
+            return redirect('app:aluno', user.id)
+        else:
+            messages.error(request, 'Usuario ou senha incorretos')
+            return redirect('app:home')
+        
+    return redirect('app:home')
+
+
+
+def my_logout(request):
+    logout(request)
     return redirect('app:home')
 
 def usuario_n(request):
