@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="{% static 'style.css' %}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -41,7 +41,7 @@
       
       {% if user.is_authenticated %}
       <div class="mb-3">
-        <a href="{% url 'app:logout' %}" class="btn btn-danger">Sair</a>
+        <a href="{% url 'app:my_logout' %}" class="btn btn-danger">Sair</a>
       </div>
       <div class="mb-3">
         <a href="{% url 'app:aluno' user.id %}" class="btn btn-success">Area do aluno</a>
@@ -94,28 +94,30 @@
       </div>
       <!--modal body-->
       <div class="modal-body">
-        <form action="{% url 'app:login' %}" method="post">
+
+        <form action="{% url 'app:my_login' %}" class="" method="POST">
           {% csrf_token %}
-          <div class="mb-3 mt3">
-            <label for="">Usuario</label>
-            <input type="text" class="form-control" name="usuario" placeholder="Usuario">
-          </div>
-          <div class="mb-3 mt-3">
-            <label for="">Password</label>
-            <input type="password" class="form-control" name="pswd" placeholder="Password">
-          </div>
-          <div class="form-check mb-3">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="remember">Remember me
-            </label>
-          </div>
-          <button type="submit" class="btn btn-primary">Login</button>
+        
+          {% for field in form.visible_fields %}
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+          {% endfor %}
+          
+          <button class="btn btn-success" type="submit">Login</button>
         </form>
+        {% for message in messages %}
+        <div class="alert alert-danger">
+            <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+        
       </div>
     </div>
   </div>
 </div>
 <!--Fim Modal login-->
+
+
 
 <!-- Footer -->
 <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
