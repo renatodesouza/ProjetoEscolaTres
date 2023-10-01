@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import HomeView, CursoView, AlunoView, ProfessorView, \
-create, delete,cursos, login, logout, login_dois, boletim
+create, delete,cursos, my_login, my_logout, boletim
 from django.views.generic import TemplateView
 
 
@@ -22,10 +22,10 @@ urlpatterns = [
     path('curso-delete/<int:pk>/', views.delete, name='delete'),
     path('update/<int:pk>/', views.update, name='update'),
     
-    path('login/', views.login, name='login'),
-    path('login/', views.login_dois, name='login_dois'),
+    path('login/', views.my_login, name='my_login'),
+    #path('login_dois/', views.login_dois, name='login_dois'),
     
-    path('logout/', views.logout, name='logout'),
+    path('logout/', views.my_logout, name='my_logout'),
 
     
 ]
