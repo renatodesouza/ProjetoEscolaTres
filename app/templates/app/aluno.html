@@ -47,8 +47,9 @@
             </div>
             {% endfor %}
           </div>
-          <button onclick="document.getElementById('id02').style.display='block'"
-            class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i>Boletim</button>
+          <button  data-bs-toggle="modal" data-bs-target="#id02"
+            class="w3-button w3-block w3-theme-l1 w3-left-align">
+            <i class="fa fa-users fa-fw w3-margin-right"></i>Boletim</button>
          
           <div id="Demo2" class="w3-hide w3-container">
             <a href="{% url 'app:boletim' %}">Boletim</a>
@@ -105,8 +106,9 @@
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               {% for message in messages %}
-              <div class="alert alert-success">
-                <p>{{ message }}</p>
+              <div class="alert alert-success alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>Sucess! </strong><p>{{ message }}</p>
               </div>
               {% endfor %}
               <h6 class="w3-opacity">Social Media template by w3.css</h6>
@@ -127,8 +129,14 @@
             <hr class="w3-clear">
             <p>{{ atividade.descricao }}</p>
             
-            <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Entregar</button> 
-            <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comentário</button> 
+            {% if atividade.status == 'ABERTA' %}
+              <button type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Entregar</button>
+            {% elif atividade.status == 'PRORROGADA' %}
+              <button type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Prorrogada</button>
+            {% else %}
+            <p><button class="w3-button w3-red w3-margin-bottom" disabled><i class="fa fa-thumbs-up"></i> Fechada</button></p>
+            {% endif %}
+              <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comentário</button> 
             <span class="w3-right w3-tag w3-small w3-theme-l2">Data de fim: {{ atividade.dt_fim }}</span>
             <hr class="w3-clear">
           </div>
@@ -152,10 +160,10 @@
           <p>{{ atividade.titulo }}</p>
 
             {% if atividade.status == 'ABERTA' %}
-              <p><button onclick="document.getElementById('id01').style.display='block'"
+              <p><button onclick="abrirModal('{{ atividade.titulo }}, {{ atividade.descricao }}')" data-id="{{ atividade.id }}"
                 class="w3-button w3-block w3-green w3-section">Entregar</button></p>
             {% elif atividade.status == 'PRORROGADA' %}
-              <p><button onclick="document.getElementById('id01').style.display='block'"
+              <p><button onclick="document.getElementById('id01').style.display='block'" data-id="{{ atividade.id }}"
                  class="w3-button w3-block w3-yellow w3-section">Prorrogada</button></p>
             {% else %}
               <p><button class="w3-button w3-block w3-red w3-section" disabled>Fechada</button></p>
@@ -168,40 +176,7 @@
       <br>
 
       <!-- MODAL INICIO -->
-      <div id="id01" class="w3-modal">
-        <div class="w3-modal-content w3-animate-right">
-          <header class="w3-container w3-theme-d2"> 
-            <span onclick="document.getElementById('id01').style.display='none'" 
-            class="w3-button w3-display-topright">&times;</span>
-            <h2>Entrega da atividade</h2>
-            <h3>Aluno: {{ aluno.usuario.first_name }} RA: {{ aluno.ra }}</h3>
-          </header>
-          <div class=" w3-light-grey">
-
-            <form action="/action_page.php">
-              {% csrf_token %}
-              <div class="container ">
-                <div class="mb-3 mt-3">
-                  <label for="{{ field.id_for_label }}">{{ entrega_form.resposta.label }}</label>
-                </div>
-                <div class="mt-3">
-                  <textarea style="width: 100%;" name="{{ entrega_form.name }}" id="{{ entrega_form.id }}" cols="50" rows="10"></textarea>
-                </div>
-                <div class="mt-3">
-                  <input type="file" name="{{ entrega_form.name }}" id="{{ entrega_form.id }}">
-                </div>
-                <div class="mt-3">
-                  <button class="btn btn-success" type="submit">Enviar</button>
-                </div>
-              </div><br>
-            </form>
-            
-          </div>
-          <footer class="w3-container w3-theme-d2">
-            <p id="data-atual"></p>
-          </footer>
-        </div>
-      </div>
+      {% include 'app/partials/_entrega_atividade_form.html' %}
       <!-- FIM MODAL -->
 
       <!--Modal boletim-->
@@ -242,3 +217,9 @@
   <a href="https://www.flaticon.com/br/icones-gratis/logotipo-do-instagram" title="logotipo do instagram ícones">Logotipo do instagram ícones criados por Pixel perfect - Flaticon</a>
 </footer>
 {% endblock %}
+
+
+
+
+
+

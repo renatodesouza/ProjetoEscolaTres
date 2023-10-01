@@ -4,8 +4,22 @@ from .models.atividade import Atividade
 from .models.disciplina import Disciplina
 from .models.curso import Curso
 from .models.entrega_atividade import EntregaAtividade
+from .models.coordenador import Coordenador
+from .models.professor import Professor
+PERIODO_CHOICES = [
+    ('matutino', 'MATUTINO'),
+    ('noturno','NOTURNO')
+]
+
+MODALIDADE_CHOICES = [
+    ('online', 'ONLINE'),
+    ('Presencial','PRESENCIAL')
+]
+
 
 class EntregaAtividadeForm(forms.ModelForm):
+    professores = Professor.objects.all()
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -15,6 +29,32 @@ class EntregaAtividadeForm(forms.ModelForm):
     class Meta:
         model = EntregaAtividade
         fields = '__all__'
+
+    resposta = forms.CharField(
+        label = 'Resposta',
+        max_length=500,
+
+        widget=forms.Textarea(
+            attrs={
+                'resposta':'resposta',
+            }
+        )
+    )
+
+    professor = forms.ModelChoiceField(
+        queryset=professores,
+        empty_label='Selecione um professor',
+        label='Professor',
+        required=True,
+        widget=forms.Select(
+            attrs={
+                'class':'form-control',
+                'professor':'professor',
+                'data-value':'professor.id'
+
+            }
+        )
+    )
 
     def clean_campo_limitado(self):
         nota = self.cleaned_data['nota']
@@ -31,20 +71,102 @@ class AtividadeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.order_fields['disciplina'].queryset = Disciplina.objects.filter(professor=professor)
 
-
+#-------------CURSO FORM------------------------------
 class CursoForm(forms.ModelForm):
+    coordenadores = Coordenador.objects.all()
+
+    PERIODO_CHOICES = (
+        ('manha', 'Manhã'),
+        ('tarde', 'Tarde'),
+        ('noite', 'Noite'),
+)
+    
+    MODALIDADE_CHOICES = (
+        ('presencial','Presencial'),
+        ('on-line', 'On-Line')
+    )
+
     class Meta:
         model = Curso
         fields = ['nome', 'descricao', 'coordenador', 'periodo', 'modalidade', 'imagem']
-        
-    remember = forms.BooleanField(
-        label = 'Remenber me',
-        widget=forms.CheckboxInput(
+
+    nome = forms.CharField(
+        label = 'Nome',
+        max_length = 200,
+        required = True,
+
+        widget=forms.TextInput(
             attrs={
-                'class':'form-check-label'
+                'placeholder':'Curso',
+                'nome':'nome',
+                'class':'form-control'
             }
         )
     )
+
+    descricao = forms.CharField(
+        label = 'Descrciao',
+        max_length=500,
+        required=True,
+        
+        widget=forms.Textarea(
+            attrs={
+                'placeholder':'Descricao do curso',
+                'descricao':'descricao',
+                'class':'form-control',
+                'cols':'1',
+                'rows':'10'
+            }
+        )
+    )
+
+    coordenador = forms.ModelChoiceField(
+        queryset=coordenadores,
+        empty_label='Selecione um coordenador',
+        label = 'Coordenador',
+        required = True,
+        widget=forms.Select(
+            attrs={
+                'class':'dropdown-item coordenador-item',
+                'coordenador':'coordenador',
+                'id':'coordenador-input'
+            }
+        )
+    )
+
+    periodo = forms.MultipleChoiceField(
+        choices=PERIODO_CHOICES,
+        widget=forms.SelectMultiple(
+            attrs={
+                'class':'dropdown-item periodo-item',
+                'periodo':'periodo',
+                'id':'periodo-input'
+            }
+        )
+    )
+
+    modalidade = forms.MultipleChoiceField(
+        choices=MODALIDADE_CHOICES,
+        widget=forms.SelectMultiple(
+            attrs={
+                'class':'dropdown-item modalidade-item',
+                'modalidade':'modalidade',
+                'id':'modalidade-input'
+            }
+        )
+    )
+    
+
+    imagem = forms.FileField(
+        widget=forms.ClearableFileInput(
+            attrs={
+                'class':'form-label',
+                'accept': 'image/*',
+                'imagem':'imagem'
+            }
+        )
+    )
+    
 
 class EntregaAtividadeForm(forms.ModelForm):
     class Meta:
@@ -102,5 +224,8 @@ class LoginForm(forms.Form):
             }
         )
     )
+
+
+
 
 

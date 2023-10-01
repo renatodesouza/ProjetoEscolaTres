@@ -1,0 +1,71 @@
+<div id="id01" class="w3-modal">
+  <div class="w3-modal-content w3-animate-right">
+      <header class="w3-container w3-theme-d2"> 
+          <span onclick="fecharModal()" class="w3-button w3-display-topright">&times;</span>
+          <h2>Entrega da atividade</h2>
+          <h3>Aluno: {{ aluno.usuario.first_name }} RA: {{ aluno.ra }}</h3>
+          <h4 id="modalTitulo">Atividade: </h4>
+          
+      </header>
+      <div class=" w3-light-grey">
+          <form action="/action_page.php">
+              {% csrf_token %}
+              <div class="container">
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <div class="mb-3">
+                              <label for="{{ entrega_form.id_for_label }}">{{ entrega_form.resposta.label }}</label>
+                              <textarea name="{{ entrega_form.resposta.name }}" placeholder="Campo para resposta OBS: Opcional" class="form-control" cols="30" rows="10">{{ entrega_form.reposta.value }}</textarea>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-4">
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                            Professor
+                          </button>
+                        </div>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <footer class="w3-container w3-theme-d2">
+          <p id="data-atual"></p>
+      </footer>
+  </div>
+</div>
+
+<script>
+  function abrirModal(titulo, descricao) {
+      // Abra o modal
+    var modal = document.getElementById('id01');
+    modal.style.display = 'block';
+
+    // Atualize os detalhes da atividade no modal com as informações passadas
+    var tituloElement = document.getElementById('modalTitulo');
+    var descricaoElement = document.getElementById('modalDescricao');
+
+    // Atualize o conteúdo dos elementos com os dados da atividade
+    tituloElement.textContent = "Atividade: " + titulo;
+    descricaoElement.textContent = "Descrição: " + descricao;
+  }
+
+  function fecharModal() {
+      // Feche o modal
+      var modal = document.getElementById('id01');
+      modal.style.display = 'none';
+  }
+
+  $(document).ready(function(){
+    $('.professor-item').click(function(e){
+      e.preventDefault();
+
+      var professorValue = $(this).data('value');
+      var professorNome = $(this).text();
+
+      $('#professor-input').val(professorValue);
+      $('#professor-nome').text(professorNome);
+    });
+  });
+</script>
