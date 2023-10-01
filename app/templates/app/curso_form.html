@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <title>Login</title>
+</head>
+<body>
+    
+    <section class="container p-5 my-5 border">
+        <h1>Cadastro de Cursos</h1>
+        <div class="row">
+            <div class="col-sm-12">
+
+                <form action="{% url 'app:curso_form_create' %}" class="bootstrap-estilo-formulario" method="POST">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label for="">{{ curso_form.nome.label }}</label>
+                                {{ curso_form.nome }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label for="{{ curso_form.id_for_label }}">{{ curso_form.descricao.label }}</label>
+                                {{ curso_form.descricao }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label for="{{ curso_form.id_for_label }}">{{ curso_form.coordenador.label }}</label>
+                                {{ curso_form.coordenador }}
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label for="{{ curso_form.id_for_label }}">{{ curso_form.periodo.label }}</label>
+                                {{ curso_form.periodo }}
+                                
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label for="{{ curso_form.id_for_label }}">{{ curso_form.modalidade.label }}</label>
+                                {{ curso_form.modalidade }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="">{{ curso_form.label }}</label>
+                            {{ curso_form.imagem }}
+                        </div>
+                    </div>
+                    
+                    {% for message in messages %}
+                    <div class="alert alert-danger">
+                        <p>{{ message }}</p>
+                    </div>
+                    {% endfor %}
+                    <button class="btn btn-success" type="submit">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    {% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+</body>
+</html>

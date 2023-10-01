@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import HomeView, CursoView, AlunoView, ProfessorView, \
+from .views import HomeView, CursoView, AlunoView, ProfessorView, CursoCreateView,\
 create, delete,cursos, my_login, my_logout, boletim
 from django.views.generic import TemplateView
 
@@ -9,13 +9,13 @@ from django.views.generic import TemplateView
 app_name = 'app'
 
 urlpatterns = [
-    # path('home/', views.index, name='index'),
-    # path('curso/<int:pk>/', views.curso, name='curso'),
+    
     path('home/', HomeView.as_view(), name='home'),
     path('curso/<int:pk>/', CursoView.as_view(), name='curso'),
     path('aluno/<int:pk>/', AlunoView.as_view(), name='aluno'),
-    path('boletim-aluno/', views.boletim, name='boletim'),
     path('professor/<int:pk>/', ProfessorView.as_view(), name='professor'),
+    
+    path('boletim-aluno/', views.boletim, name='boletim'),
     path('cursos/', views.cursos, name='cursos'),
 
     path('curso-create/', views.create , name='create'),
@@ -23,7 +23,7 @@ urlpatterns = [
     path('update/<int:pk>/', views.update, name='update'),
     
     path('login/', views.my_login, name='my_login'),
-    #path('login_dois/', views.login_dois, name='login_dois'),
+    path('curso-form/', CursoCreateView.as_view(), name='curso_form_create'),
     
     path('logout/', views.my_logout, name='my_logout'),
 
