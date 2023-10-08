@@ -124,6 +124,7 @@ class AlunoView(DetailView):
         context['disciplinas'] = matricula.turma.disciplina.all()
         context['atividades'] = matricula.turma.atividades.all()
         context['atividades_limit'] = matricula.turma.atividades.order_by('?')[:2]
+        context['professores'] = Professor.objects.all()
         
         context['entrega_form'] = EntregaAtividadeForm()
         
@@ -177,7 +178,7 @@ def curso(request, pk):
     return render(request, 'app/curso.html', context)
 
 
-# ------------------------------------------------------------------
+# ---------------------------CRIACAO DE CURSO---------------------------------------
 
 def create(request):
     cursos = Curso.objects.all()
@@ -211,7 +212,7 @@ def create(request):
 
 
 
-
+#-----------------------ATUALIZACAO DE CURSO--------------------------------------
 
 def update(request, pk):
     curso = get_object_or_404(Curso, pk=pk)
@@ -296,3 +297,18 @@ def my_logout(request):
     
 
 #---------------------------------------------------------------------------------------
+
+#---------------------CRIACAO DE ENTREGA DE ATIVIDADES----------------------------------
+
+def cria_entrega_atividade(request):
+    if request.method == 'POST':
+        aluno = request.POST.get('aluno')
+        professor = request.POST.get('professor')
+        resposta = request.POST.get('resposta')
+        
+
+        dt_entrega = request.POST.get('dt_entrega')
+        aluno = request.user
+        print(aluno, professor, resposta, dt_entrega)
+
+    return redirect('app:aluno', 2)
