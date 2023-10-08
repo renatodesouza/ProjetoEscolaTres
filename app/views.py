@@ -223,7 +223,8 @@ def login(request):
 
 
 def login_dois(request):
-    return render(request, 'app/login.html')
+    form = LoginForm()
+    return render(request, 'app/login.html', {'form': form})
 
 
 def logout(request):

@@ -39,5 +39,14 @@ class CursoForm(forms.ModelForm):
         
 
 class LoginForm(forms.Form):
-    usuario = forms.CharField(max_length=100)
-    password = forms.PasswordInput()
+    usuario = forms.CharField(
+        label = 'Nome de usuario',
+        required = True,
+        max_length=100)
+    
+    password = forms.CharField(
+        label = 'Senha',
+        required = True,
+        max_length = 70,
+        widget = forms.PasswordInput()
+    )
