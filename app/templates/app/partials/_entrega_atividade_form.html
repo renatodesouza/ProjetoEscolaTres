@@ -8,26 +8,45 @@
           
       </header>
       <div class=" w3-light-grey">
-          <form action="/action_page.php">
+          <form action="{% url 'app:cria_entrega_atividade' %}" method="POST">
               {% csrf_token %}
               <div class="container">
                   <div class="row">
                       <div class="col-sm-12">
                           <div class="mb-3">
                               <label for="{{ entrega_form.id_for_label }}">{{ entrega_form.resposta.label }}</label>
-                              <textarea name="{{ entrega_form.resposta.name }}" placeholder="Campo para resposta OBS: Opcional" class="form-control" cols="30" rows="10">{{ entrega_form.reposta.value }}</textarea>
+                              <textarea name="{{ entrega_form.resposta.name }}" placeholder="Campo para resposta OBS: Opcional" class="form-control" cols="30" rows="5">{{ entrega_form.reposta.value }}</textarea>
                           </div>
                       </div>
                   </div>
                   <div class="row">
-                      <div class="col-sm-4">
-                        <div class="dropdown">
-                          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                            Professor
-                          </button>
+                      
+                    <div class="mb-3">
+                      <div class="row">
+                        <div class="col-sm-6">
+                            <label for="">{{ entrega_form.professor.label }}</label>
+                              {{ entrega_form.professor }}
                         </div>
+                        <div class="col-sm-6">
+                          <label for="">{{ entrega_form.aluno.label }}</label>
+                          {{ entrega_form.aluno }}
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label for="">{{ entrega_form.atividade.label }}</label>
+                          {{ entrega_form.atividade }}
+                        </div>
+                        <div class="col-sm-6">
+                          <input type="file" >
+                        </div>
+                      </div>
+                    </div>
+                      
                   </div>
               </div>
+              <button type="submit">Enviar</button>
           </form>
       </div>
       <footer class="w3-container w3-theme-d2">
