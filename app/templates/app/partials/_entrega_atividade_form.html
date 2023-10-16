@@ -3,12 +3,33 @@
       <header class="w3-container w3-theme-d2"> 
           <span onclick="fecharModal()" class="w3-button w3-display-topright">&times;</span>
           <h2>Entrega da atividade</h2>
-          <h3>Aluno: {{ aluno.usuario.first_name }} RA: {{ aluno.ra }}</h3>
-          <h4 id="modalTitulo">Atividade: </h4>
+          <div class="row">
+            <div class="col-sm-4">
+              <h4 id="modalTitulo">Atividade: </h4>
+            </div>
+            <div class="col-sm-8">
+              <h4 id="modalDescricao">Descricao</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <h5>Aluno: {{ aluno.usuario.first_name }}</h5>
+            </div>
+            <div class="col-sm-4">
+              <h5>RA: {{ aluno.ra }}</h5>
+            </div>
+            <div class="col-sm-4">
+              <h5 id="NomeProfessor"> </h5>
+            </div>
+          </div>
+          
+          
+          
+          
           
       </header>
       <div class=" w3-light-grey">
-          <form action="{% url 'app:cria_entrega_atividade' %}" method="POST">
+          <form action="{% url 'app:cria_entrega_atividade' %}" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="container">
                   <div class="row">
@@ -24,26 +45,25 @@
                     <div class="mb-3">
                       <div class="row">
                         <div class="col-sm-6">
-                            <label for="">{{ entrega_form.professor.label }}</label>
-                              {{ entrega_form.professor }}
+                          <input type="text" id="IdProfessor" value="" name="professor">
+                          
                         </div>
                         <div class="col-sm-6">
-                          <label for="">{{ entrega_form.aluno.label }}</label>
-                          {{ entrega_form.aluno }}
+                          <input type="text" id="IdAluno" value="" name="aluno">
                         </div>
                       </div>
                       <br>
                       <div class="row">
                         <div class="col-sm-6">
                           <label for="">{{ entrega_form.atividade.label }}</label>
-                          {{ entrega_form.atividade }}
+                          <input type="text" id="Atividade" value="" name="atividade">
                         </div>
                         <div class="col-sm-6">
-                          <input type="file" >
+                          <input type="file" name="arquivo">
                         </div>
                       </div>
                     </div>
-                      
+                    <input type="hidden" id="IdDataAtual" name="data_atual">
                   </div>
               </div>
               <button type="submit">Enviar</button>
@@ -56,7 +76,7 @@
 </div>
 
 <script>
-  function abrirModal(titulo, descricao) {
+  function abrirModal(titulo, descricao, professor_id, atividade_id, professor, aluno_id) {
       // Abra o modal
     var modal = document.getElementById('id01');
     modal.style.display = 'block';
@@ -65,9 +85,22 @@
     var tituloElement = document.getElementById('modalTitulo');
     var descricaoElement = document.getElementById('modalDescricao');
 
+    var professorId = document.getElementById('IdProfessor');
+    var professorNome = document.getElementById('NomeProfessor');
+    var atividadeInput = document.getElementById('Atividade');
+    var alunoId = document.getElementById('IdAluno');
+
+    
+
     // Atualize o conteúdo dos elementos com os dados da atividade
     tituloElement.textContent = "Atividade: " + titulo;
     descricaoElement.textContent = "Descrição: " + descricao;
+    professorId.value = professor_id;
+    professorNome.textContent = 'Professor: ' + professor;
+    atividadeInput.value = atividade_id;
+    alunoId.value = aluno_id;
+
+    
   }
 
   function fecharModal() {
@@ -75,6 +108,18 @@
       var modal = document.getElementById('id01');
       modal.style.display = 'none';
   }
+
+  function exibirDataAtual() {
+        var dataAtualElement = document.getElementById("data-atual");
+        var dataAtualIdElement = document.getElementById("IdDataAtual");
+        var dataAtual = new Date();
+        var dataFormatada = dataAtual.toLocaleDateString();
+        dataAtualElement.innerHTML = dataFormatada;
+        dataAtualIdElement.value = dataFormatada;
+    }
+
+    // Chamar a função para exibir a data atual
+    exibirDataAtual();
 
   $(document).ready(function(){
     $('.professor-item').click(function(e){

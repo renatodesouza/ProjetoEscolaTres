@@ -6,7 +6,8 @@ from datetime import date
 
 
 class Mensagem(models.Model):
-    professor = models.ForeignKey(Professor)
-    aluno = models.ForeignKey(Aluno)
+    professor = models.ForeignKey(Professor, on_delete=models.PROTECT)
+    aluno = models.ForeignKey(Aluno, on_delete=models.PROTECT)
     mensagem = models.TextField("Mensagem", blank=True)
+    
     dt_envio = models.DateField("Data de envio", default=date(year=1900, month=1, day=1))

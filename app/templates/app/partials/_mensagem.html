@@ -1,0 +1,17 @@
+
+<form action="{% url 'app:mensagem' %}" method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="">Aluno</label>
+        {{ mensagem_form.aluno }}
+    </div>
+    <div>
+        <label for="">Professor</label>
+        {{ mensagem_form.professor }}
+    </div>
+    <div>
+        <label for="">Mensagem</label>
+        <textarea name="mensagem" id="" cols="30" rows="10"></textarea>
+    </div>
+    <button type="submit">Enviar</button>
+</form>

@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import HomeView, CursoView, AlunoView, ProfessorView, CursoCreateView,\
-create, delete,cursos, my_login, my_logout, boletim, cria_entrega_atividade
+create, delete,cursos, my_login, my_logout, boletim, cria_entrega_atividade, MensagemViews
 from django.views.generic import TemplateView
 
 
@@ -28,6 +28,7 @@ urlpatterns = [
     path('logout/', views.my_logout, name='my_logout'),
 
     path('cria-entrega-atividade/', view=cria_entrega_atividade, name='cria_entrega_atividade'),
+    path('mensagem/', MensagemViews.as_view(), name='mensagem'),
 
     
 ]

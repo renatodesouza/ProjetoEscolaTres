@@ -17,7 +17,7 @@ class EntregaAtividade(models.Model):
     status = models.CharField(max_length=3, choices=escolha_status, default=PENDENTE)
     nota = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     aluno = models.ForeignKey(Aluno, on_delete=models.PROTECT)
-    atividade = models.OneToOneField(Atividade, on_delete=models.PROTECT)
+    atividade = models.OneToOneField(Atividade, on_delete=models.PROTECT, related_name='entregas')
     professor = models.ForeignKey(Professor, on_delete=models.PROTECT)
     dt_entrega = models.DateField(auto_now=datetime.now())
     observacao = models.TextField(max_length=255)

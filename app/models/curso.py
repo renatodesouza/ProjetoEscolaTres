@@ -4,12 +4,12 @@ from .coordenador import Coordenador
 
 class Curso(models.Model):
 
-    MATUTINO = 'MATUTINO'
-    NOTURNO = 'NOTURNO'
+    MATUTINO = 'Matutino'
+    NOTURNO = 'Noturno'
 
     escolha_periodo = [
-        (MATUTINO, 'MATUTINO'),
-        (NOTURNO, 'NOTURNO')
+        (MATUTINO, 'Matutino'),
+        (NOTURNO, 'Noturno')
     ]
 
     PRESENCIAL = 'PRESENCIAL'
