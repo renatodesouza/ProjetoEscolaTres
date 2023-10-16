@@ -11,10 +11,12 @@ class Atividade(models.Model):
     FECHADA = 'FECHADA'
     PRORROGADA = 'PRORROGADA'
     
+    
     escolha_status = [
                     (ABERTA, 'Aberta'),
                     (FECHADA, 'Fechada'),
-                    (PRORROGADA, 'Prorrogada'),]
+                    (PRORROGADA, 'Prorrogada')
+                    ]
     
     ATV1 = 'ATV1'
     ATV2 = 'ATV2'

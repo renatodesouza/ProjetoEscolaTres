@@ -6,14 +6,19 @@ from .models.curso import Curso
 from .models.entrega_atividade import EntregaAtividade
 from .models.coordenador import Coordenador
 from .models.professor import Professor
-PERIODO_CHOICES = [
-    ('matutino', 'MATUTINO'),
-    ('noturno','NOTURNO')
-]
+from .models.aluno import Aluno
+from .models.mensagem import Mensagem
 
+
+
+PERIODO_CHOICES = [
+        ('MATUTINO', 'Matutino'),
+        ('NOTURNO', 'Noturno'),
+]
+    
 MODALIDADE_CHOICES = [
-    ('online', 'ONLINE'),
-    ('Presencial','PRESENCIAL')
+    ('PRESENCIAL','PRESENCIAL'),
+    ('ONLINE', 'ONLINE')
 ]
 
 
@@ -75,17 +80,6 @@ class AtividadeForm(forms.ModelForm):
 class CursoForm(forms.ModelForm):
     coordenadores = Coordenador.objects.all()
 
-    PERIODO_CHOICES = (
-        ('manha', 'Manhã'),
-        ('tarde', 'Tarde'),
-        ('noite', 'Noite'),
-)
-    
-    MODALIDADE_CHOICES = (
-        ('presencial','Presencial'),
-        ('on-line', 'On-Line')
-    )
-
     class Meta:
         model = Curso
         fields = ['nome', 'descricao', 'coordenador', 'periodo', 'modalidade', 'imagem']
@@ -134,23 +128,23 @@ class CursoForm(forms.ModelForm):
         )
     )
 
-    periodo = forms.MultipleChoiceField(
+    periodo = forms.ChoiceField(
         choices=PERIODO_CHOICES,
         widget=forms.SelectMultiple(
             attrs={
                 'class':'dropdown-item periodo-item',
-                'periodo':'periodo',
+                
                 'id':'periodo-input'
             }
         )
     )
 
-    modalidade = forms.MultipleChoiceField(
+    modalidade = forms.ChoiceField(
         choices=MODALIDADE_CHOICES,
         widget=forms.SelectMultiple(
             attrs={
                 'class':'dropdown-item modalidade-item',
-                'modalidade':'modalidade',
+                
                 'id':'modalidade-input'
             }
         )
@@ -227,5 +221,35 @@ class LoginForm(forms.Form):
 
 
 
+class MensagemForm(forms.ModelForm):
+    aluno = Aluno.objects.all()
+    professor = Professor.objects.all()
 
+    class Meta:
+        model = Mensagem
+        fields = ['aluno', 'professor', 'mensagem']
+
+    aluno = forms.ModelChoiceField(
+        queryset=aluno,
+        empty_label='Selecione um aluno',
+        label='Aluno',
+        widget=forms.Select(
+            attrs={
+                'class':'dropdow-item'
+            }
+        )
+
+    )
+
+    professor = forms.ModelChoiceField(
+        queryset=professor,
+        empty_label='Selecione um aluno',
+        label='Professor',
+        widget=forms.Select(
+            attrs={
+                'class':'dropdow-item'
+            }
+        )
+
+    )
 

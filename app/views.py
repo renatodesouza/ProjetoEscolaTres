@@ -18,9 +18,11 @@ from .models.aluno import Aluno
 from .models.professor import Professor
 from .models.matricula import Matricula
 from .models.atividade import Atividade
+from .models.entrega_atividade import EntregaAtividade
 from app.models.coordenador import Coordenador
+from app.models.mensagem import Mensagem
 
-from .forms import CursoForm, LoginForm, EntregaAtividadeForm
+from .forms import CursoForm, LoginForm, EntregaAtividadeForm, MensagemForm
 
 
 
@@ -76,9 +78,11 @@ class CursoCreateView(CreateView):
             curso_form = CursoForm(request.POST, request.FILES)
             print('#######################################################################')
             print(request.POST)
-            print(curso_form)
+            print('-----------------------------------------------------------------')
+            print('formulario', curso_form.errors)
+            print('-----------------------------------------------------------------')
             if curso_form.is_valid():
-                print('esse form nao e valido')
+                print('esse form e valido')
                 nome = curso_form.cleaned_data['nome']
                 descricao = curso_form.cleaned_data['descricao']
                 coordenador = curso_form.cleaned_data['coordenador']
@@ -103,9 +107,7 @@ class AlunoView(DetailView):
     model = Aluno
     context_object_name = 'user'
     
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    
 
     def get_queryset(self):
         self.nome = get_object_or_404(User, pk=self.kwargs['pk'])
@@ -115,7 +117,7 @@ class AlunoView(DetailView):
     def get_context_data(self, **kwargs):
         usuario = self.request.user
         matricula = Matricula.objects.get(aluno__usuario=usuario)
-
+        print(matricula)
         context = super().get_context_data(**kwargs)
         context['aluno'] = Aluno.objects.get(usuario=usuario)
         context['cursos'] = Curso.objects.all()
@@ -124,9 +126,14 @@ class AlunoView(DetailView):
         context['disciplinas'] = matricula.turma.disciplina.all()
         context['atividades'] = matricula.turma.atividades.all()
         context['atividades_limit'] = matricula.turma.atividades.order_by('?')[:2]
-        context['professores'] = Professor.objects.all()
         
+        context['professores'] = Professor.objects.all()
+        context['mensagens'] = Mensagem.objects.filter(aluno__usuario=usuario)
         context['entrega_form'] = EntregaAtividadeForm()
+
+        entregas = EntregaAtividade.objects.filter(aluno__usuario=usuario, atividade__in=context['atividades'])
+        atividades_entregues = set(entrega.atividade for entrega in entregas)
+        context['atividades_entregues'] = atividades_entregues
         
         return context
     
@@ -302,13 +309,54 @@ def my_logout(request):
 
 def cria_entrega_atividade(request):
     if request.method == 'POST':
-        aluno = request.POST.get('aluno')
-        professor = request.POST.get('professor')
+
+        aluno_id = request.POST.get('aluno')
+        professor_id = request.POST.get('professor')
         resposta = request.POST.get('resposta')
+        atividade_id = request.POST.get('atividade')
+        dt_entrega = request.POST.get('data_atual')
+        arq = request.FILES.get('arquivo')
+
+        atividade = Atividade.objects.get(id=atividade_id)
+        professor = Professor.objects.get(id=professor_id)
+        aluno = Aluno.objects.get(id=aluno_id)
+    
+        if arq:
+            caminho_arq = default_storage.save(arq.name, arq)
         
+        print(resposta)
+        EntregaAtividade.objects.create(resposta=resposta, status='ENT',
+                                         aluno=aluno, atividade=atividade,
+                                         professor=professor, dt_entrega=dt_entrega,
+                                         file=caminho_arq)
 
-        dt_entrega = request.POST.get('dt_entrega')
-        aluno = request.user
-        print(aluno, professor, resposta, dt_entrega)
+        
+    return redirect('app:aluno', aluno_id)
 
-    return redirect('app:aluno', 2)
+
+
+class MensagemViews(CreateView):
+    template_name = 'app/mensagem.html'
+    model = Mensagem
+    
+    form_class = MensagemForm
+    success_url = reverse_lazy('app:aluno')
+
+    def get_context_data(self, **kwargs):
+        context = super(MensagemViews, self).get_context_data(**kwargs)
+        context['mensagem_form'] = MensagemForm()
+        return context
+
+    def post(self, request, **kwargs):
+        if request.method == 'POST':
+            mensagem_form = MensagemForm(request.POST)
+            print(mensagem_form)
+            if mensagem_form.is_valid():
+                aluno = mensagem_form.cleaned_data['aluno']
+                professor = mensagem_form.cleaned_data['professor']
+                mensagem = mensagem_form.cleaned_data['mensagem']
+
+                print(aluno, professor, mensagem)
+                Mensagem.objects.create(professor=professor, aluno=aluno, mensagem=mensagem)
+            return redirect('app:home')
+        return redirect('app:mensagem')

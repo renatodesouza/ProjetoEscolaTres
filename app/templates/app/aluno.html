@@ -156,20 +156,25 @@
           <p>Atividade para entregar</p>
 
           {% for atividade in atividades_limit %}
-          <p><strong>{{ atividade.disciplina.nome }}</strong></p>
-          <p>{{ atividade.titulo }}</p>
-
-            {% if atividade.status == 'ABERTA' %}
-              <p><button onclick="abrirModal('{{ atividade.titulo }}, {{ atividade.descricao }}')" data-id="{{ atividade.id }}"
-                class="w3-button w3-block w3-green w3-section">Entregar</button></p>
+            <p><strong>{{ atividade.disciplina.nome }}</strong></p>
+            <p>{{ atividade.titulo }} {{ atividade.id }} {{ aluno.id }}</p>
+            
+            {% if atividade in atividades_entregues %}
+                <p><button class="w3-button w3-block w3-green w3-section" disabled>Entregue</button></p>
+            {% elif atividade.status == 'ABERTA' %}
+                <p><button onclick="abrirModal(
+                    '{{ atividade.titulo }}', '{{ atividade.descricao }}', '{{ atividade.professor.id }}', '{{ atividade.id }}', '{{ atividade.professor }}', '{{ aluno.id }}'
+                    )" data-id="{{ atividade.id }}"
+                    class="w3-button w3-block w3-green w3-section">Entregar</button></p>
             {% elif atividade.status == 'PRORROGADA' %}
-              <p><button onclick="document.getElementById('id01').style.display='block'" data-id="{{ atividade.id }}"
-                 class="w3-button w3-block w3-yellow w3-section">Prorrogada</button></p>
+                <p><button onclick="document.getElementById('id01').style.display='block'" data-id="{{ atividade.id }}"
+                    class="w3-button w3-block w3-yellow w3-section">Prorrogada</button></p>
             {% else %}
-              <p><button class="w3-button w3-block w3-red w3-section" disabled>Fechada</button></p>
+                <p><button class="w3-button w3-block w3-red w3-section" disabled>Fechada</button></p>
             {% endif %}
             
-          <hr class="w3-clear">
+            <hr class="w3-clear">
+          
           {% endfor %}
         </div>
       </div>

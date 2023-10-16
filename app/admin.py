@@ -12,6 +12,7 @@ from .models.matricula import Matricula
 from .models.professor import Professor
 from .models.turma import Turma
 from .models.entrega_atividade import EntregaAtividade
+from .models.mensagem import Mensagem
 
 from django.contrib.auth.models import Group
 
@@ -35,7 +36,7 @@ class AlunoAdmin(admin.ModelAdmin):
 @admin.register(Atividade)
 class AtividadeAdmin(admin.ModelAdmin):
 
-    list_display = ('titulo', 'descricao', 'status', 'atividade',
+    list_display = ('id', 'titulo', 'descricao', 'status', 'atividade',
                     'dt_inicio', 'dt_fim', 'professor', 'disciplina')
     
     fieldsets = [
@@ -151,7 +152,7 @@ class TurmaAdmin(admin.ModelAdmin):
 @admin.register(EntregaAtividade)
 class EntregaAtividadeAdmin(admin.ModelAdmin):
 
-    list_display = ('atividade', 'aluno', 'professor', 'dt_entrega', 'status',
+    list_display = ('id', 'atividade', 'aluno', 'professor', 'dt_entrega', 'status',
                     'nota', 'observacao', 'file')
     
     fieldsets = [
@@ -196,10 +197,16 @@ class EntregaAtividadeAdmin(admin.ModelAdmin):
             kwargs['disabled'] = False  # Desabilita a edição do campo pelo usuário
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    
+@admin.register(Mensagem)
+class MensagemAdmin(admin.ModelAdmin):
 
+    list_display = ('aluno', 'professor', 'mensagem')
 
-
-
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        if request.user.is_superuser:
+            return queryset
+        return queryset.filter(aluno__usuario=request.user)\
+            or queryset.filter(professor__usuario=request.user)
     
     
