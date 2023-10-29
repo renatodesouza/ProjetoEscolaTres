@@ -157,7 +157,7 @@
 
           {% for atividade in atividades_limit %}
             <p><strong>{{ atividade.disciplina.nome }}</strong></p>
-            <p>{{ atividade.titulo }} {{ atividade.id }} {{ aluno.id }}</p>
+            <p>{{ atividade.titulo }}</p>
             
             {% if atividade in atividades_entregues %}
                 <p><button class="w3-button w3-block w3-green w3-section" disabled>Entregue</button></p>

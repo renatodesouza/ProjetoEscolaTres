@@ -3,11 +3,11 @@
     {% csrf_token %}
     <div>
         <label for="">Aluno</label>
-        {{ mensagem_form.aluno }}
+        <input type="text" name="remetente" id="">
     </div>
     <div>
         <label for="">Professor</label>
-        {{ mensagem_form.professor }}
+        {{ mensagem_form.destinatario }}
     </div>
     <div>
         <label for="">Mensagem</label>
@@ -15,3 +15,12 @@
     </div>
     <button type="submit">Enviar</button>
 </form>
+
+
+<div>
+    {% for mensagem in mensagens %}
+    <p>Remetente: {{ mensagem.aluno }}</p>
+    <p>Destinatario: {{  mensagem.professor }}</p>
+    <p>{{ mensagem.mensagem }}</p>
+    {% endfor %}
+</div>

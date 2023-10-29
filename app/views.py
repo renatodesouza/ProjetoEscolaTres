@@ -107,8 +107,6 @@ class AlunoView(DetailView):
     model = Aluno
     context_object_name = 'user'
     
-    
-
     def get_queryset(self):
         self.nome = get_object_or_404(User, pk=self.kwargs['pk'])
         
@@ -128,7 +126,7 @@ class AlunoView(DetailView):
         context['atividades_limit'] = matricula.turma.atividades.order_by('?')[:2]
         
         context['professores'] = Professor.objects.all()
-        context['mensagens'] = Mensagem.objects.filter(aluno__usuario=usuario)
+        context['mensagens'] = Mensagem.objects.filter(remetente=usuario.id)
         context['entrega_form'] = EntregaAtividadeForm()
 
         entregas = EntregaAtividade.objects.filter(aluno__usuario=usuario, atividade__in=context['atividades'])
@@ -312,23 +310,22 @@ def cria_entrega_atividade(request):
 
         aluno_id = request.POST.get('aluno')
         professor_id = request.POST.get('professor')
-        resposta = request.POST.get('resposta')
         atividade_id = request.POST.get('atividade')
+        resposta = request.POST.get('resposta')
         dt_entrega = request.POST.get('data_atual')
         arq = request.FILES.get('arquivo')
 
-        atividade = Atividade.objects.get(id=atividade_id)
-        professor = Professor.objects.get(id=professor_id)
         aluno = Aluno.objects.get(id=aluno_id)
+        professor = Professor.objects.get(id=professor_id)
+        atividade = Atividade.objects.get(id=atividade_id)
     
         if arq:
             caminho_arq = default_storage.save(arq.name, arq)
         
-        print(resposta)
+        
         EntregaAtividade.objects.create(resposta=resposta, status='ENT',
-                                         aluno=aluno, atividade=atividade,
-                                         professor=professor, dt_entrega=dt_entrega,
-                                         file=caminho_arq)
+                                         aluno=aluno, atividade=atividade, professor=professor, 
+                                         dt_entrega=dt_entrega, file=caminho_arq)
 
         
     return redirect('app:aluno', aluno_id)
@@ -336,7 +333,7 @@ def cria_entrega_atividade(request):
 
 
 class MensagemViews(CreateView):
-    template_name = 'app/mensagem.html'
+    template_name = 'app/partials/_mensagem.html'
     model = Mensagem
     
     form_class = MensagemForm
@@ -344,7 +341,9 @@ class MensagemViews(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(MensagemViews, self).get_context_data(**kwargs)
+        print(context)
         context['mensagem_form'] = MensagemForm()
+        context['mensagens'] = Mensagem.objects.all()
         return context
 
     def post(self, request, **kwargs):
@@ -358,5 +357,5 @@ class MensagemViews(CreateView):
 
                 print(aluno, professor, mensagem)
                 Mensagem.objects.create(professor=professor, aluno=aluno, mensagem=mensagem)
-            return redirect('app:home')
+            return redirect('app:mensagem')
         return redirect('app:mensagem')
