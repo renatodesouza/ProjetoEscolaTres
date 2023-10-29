@@ -1,77 +1,75 @@
 <div id="id01" class="w3-modal">
   <div class="w3-modal-content w3-animate-right">
-      <header class="w3-container w3-theme-d2"> 
-          <span onclick="fecharModal()" class="w3-button w3-display-topright">&times;</span>
-          <h2>Entrega da atividade</h2>
-          <div class="row">
-            <div class="col-sm-4">
-              <h4 id="modalTitulo">Atividade: </h4>
-            </div>
-            <div class="col-sm-8">
-              <h4 id="modalDescricao">Descricao</h4>
-            </div>
+    <header class="w3-container w3-theme-d2"> 
+        <span onclick="fecharModal()" class="w3-button w3-display-topright">&times;</span>
+        <h2>Entrega da atividade</h2>
+        <div class="row">
+          <div class="col-sm-4">
+            <h4 id="modalTitulo"></h4>
           </div>
-          <div class="row">
-            <div class="col-sm-4">
-              <h5>Aluno: {{ aluno.usuario.first_name }}</h5>
-            </div>
-            <div class="col-sm-4">
-              <h5>RA: {{ aluno.ra }}</h5>
-            </div>
-            <div class="col-sm-4">
-              <h5 id="NomeProfessor"> </h5>
-            </div>
+          <div class="col-sm-8">
+            <h4 id="modalDescricao"></h4>
           </div>
-          
-          
-          
-          
-          
-      </header>
-      <div class=" w3-light-grey">
-          <form action="{% url 'app:cria_entrega_atividade' %}" method="POST" enctype="multipart/form-data">
-              {% csrf_token %}
-              <div class="container">
-                  <div class="row">
-                      <div class="col-sm-12">
-                          <div class="mb-3">
-                              <label for="{{ entrega_form.id_for_label }}">{{ entrega_form.resposta.label }}</label>
-                              <textarea name="{{ entrega_form.resposta.name }}" placeholder="Campo para resposta OBS: Opcional" class="form-control" cols="30" rows="5">{{ entrega_form.reposta.value }}</textarea>
-                          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <h5>Aluno: {{ aluno.usuario.first_name }}</h5>
+          </div>
+          <div class="col-sm-4">
+            <h5>RA: {{ aluno.ra }}</h5>
+          </div>
+          <div class="col-sm-4">
+            <h5 id="NomeProfessor"> </h5>
+          </div>
+        </div>
+    </header>
+    <div class=" w3-light-grey">
+        <form action="{% url 'app:cria_entrega_atividade' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="mb-3">
+                            <label for="{{ entrega_form.id_for_label }}">{{ entrega_form.resposta.label }}</label>
+                            <textarea name="{{ entrega_form.resposta.name }}" placeholder="Campo para resposta OBS: Opcional" class="form-control" cols="30" rows="8">{{ entrega_form.reposta.value }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="mb-3">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <input type="hidden" id="IdProfessor" value="" name="professor">
                       </div>
-                  </div>
-                  <div class="row">
-                      
-                    <div class="mb-3">
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <input type="text" id="IdProfessor" value="" name="professor">
-                          
-                        </div>
-                        <div class="col-sm-6">
-                          <input type="text" id="IdAluno" value="" name="aluno">
-                        </div>
+                      <div class="col-sm-3">
+                        <input type="hidden" id="IdAluno" value="" name="aluno">
                       </div>
-                      <br>
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <label for="">{{ entrega_form.atividade.label }}</label>
-                          <input type="text" id="Atividade" value="" name="atividade">
-                        </div>
-                        <div class="col-sm-6">
-                          <input type="file" name="arquivo">
-                        </div>
+                    
+                      <div class="col-sm-3">
+                        <input type="hidden" id="Atividade" value="" name="atividade">
+                      </div>
+                      <div class="col-sm-3">
+                        <input type="hidden" id="IdDataAtual" name="data_atual">
                       </div>
                     </div>
-                    <input type="hidden" id="IdDataAtual" name="data_atual">
                   </div>
-              </div>
-              <button type="submit">Enviar</button>
-          </form>
-      </div>
-      <footer class="w3-container w3-theme-d2">
-          <p id="data-atual"></p>
-      </footer>
+                </div>
+                <div class="row">
+                  <div class="col-sm-5">
+                    <input type="file" name="arquivo">
+                  </div>
+                  <div class="col-sm-5 position-absolute bottom-0 end-0 p-1">
+                    <button class="btn btn-success" type="submit">Enviar</button>
+                  </div>
+                </div>
+            </div>
+            
+            
+        </form>
+    </div>
+    <footer class="w3-container w3-theme-d2">
+        <p id="data-atual"></p>
+    </footer>
   </div>
 </div>
 

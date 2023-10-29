@@ -227,29 +227,6 @@ class MensagemForm(forms.ModelForm):
 
     class Meta:
         model = Mensagem
-        fields = ['aluno', 'professor', 'mensagem']
+        fields = ['remetente', 'destinatario', 'assunto', 'mensagem', 'dt_envio']
 
-    aluno = forms.ModelChoiceField(
-        queryset=aluno,
-        empty_label='Selecione um aluno',
-        label='Aluno',
-        widget=forms.Select(
-            attrs={
-                'class':'dropdow-item'
-            }
-        )
-
-    )
-
-    professor = forms.ModelChoiceField(
-        queryset=professor,
-        empty_label='Selecione um aluno',
-        label='Professor',
-        widget=forms.Select(
-            attrs={
-                'class':'dropdow-item'
-            }
-        )
-
-    )
-
+    

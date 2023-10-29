@@ -200,7 +200,7 @@ class EntregaAtividadeAdmin(admin.ModelAdmin):
 @admin.register(Mensagem)
 class MensagemAdmin(admin.ModelAdmin):
 
-    list_display = ('aluno', 'professor', 'mensagem')
+    list_display = ('remetente', 'destinatario', 'mensagem', 'dt_envio')
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
