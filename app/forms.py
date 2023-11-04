@@ -75,17 +75,6 @@ class AtividadeForm(forms.ModelForm):
 class CursoForm(forms.ModelForm):
     coordenadores = Coordenador.objects.all()
 
-    PERIODO_CHOICES = (
-        ('manha', 'Manhã'),
-        ('tarde', 'Tarde'),
-        ('noite', 'Noite'),
-)
-    
-    MODALIDADE_CHOICES = (
-        ('presencial','Presencial'),
-        ('on-line', 'On-Line')
-    )
-
     class Meta:
         model = Curso
         fields = ['nome', 'descricao', 'coordenador', 'periodo', 'modalidade', 'imagem']

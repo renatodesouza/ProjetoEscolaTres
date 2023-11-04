@@ -18,12 +18,12 @@ urlpatterns = [
     path('boletim-aluno/', views.boletim, name='boletim'),
     path('cursos/', views.cursos, name='cursos'),
 
-    path('curso-create/', views.create , name='create'),
+    path('curso-create/', CursoCreateView.as_view(), name='create'),
     path('curso-delete/<int:pk>/', views.delete, name='delete'),
     path('update/<int:pk>/', views.update, name='update'),
     
     path('login/', views.my_login, name='my_login'),
-    path('curso-form/', CursoCreateView.as_view(), name='curso_form_create'),
+    #path('curso-form/', CursoCreateView.as_view(), name='curso_form_create'),
     
     path('logout/', views.my_logout, name='my_logout'),
 

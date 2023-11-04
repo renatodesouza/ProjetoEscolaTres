@@ -24,7 +24,8 @@
                         <div class="col-sm-12">
                             <div class="mb-3">
                                 <label for="">{{ curso_form.nome.label }}</label>
-                                {{ curso_form.nome }}
+                                <input type="text" name="nome" class="form-control">
+                                
                             </div>
                         </div>
                     </div>
@@ -32,15 +33,27 @@
                         <div class="col-sm-12">
                             <div class="mb-3">
                                 <label for="{{ curso_form.id_for_label }}">{{ curso_form.descricao.label }}</label>
-                                {{ curso_form.descricao }}
+                                <textarea name="descricao" id="" cols="10" rows="10" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label for="{{ curso_form.id_for_label }}">{{ curso_form.coordenador.label }}</label>
-                                {{ curso_form.coordenador }}
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                    Coordenador                           
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for coordenador in coordenadores %} 
+                                    <li>
+                                        <a href="#" class="dropdown-item coordenador-item" data-value="{{ coordenador.id }}">
+                                            {{ coordenador.usuario.first_name }}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                <input type="hidden" id="coordenador-input" name="coordenador" value="">
+                                <span id="coordenador-nome"></span>  
                             </div>
                         </div>
                         <div class="col-sm-4">

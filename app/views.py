@@ -60,7 +60,7 @@ class CursoView(DetailView):
 
 class CursoCreateView(CreateView):
     model = Curso
-    template_name = 'app/curso_form.html'
+    template_name = 'app/curso_create.html'
     form_class = CursoForm
     success_url = reverse_lazy('app:cursos')
     
@@ -74,11 +74,9 @@ class CursoCreateView(CreateView):
     def post(self, request, **kwargs):
         if request.method == 'POST':
             curso_form = CursoForm(request.POST, request.FILES)
-            print('#######################################################################')
-            print(request.POST)
             print(curso_form)
             if curso_form.is_valid():
-                print('esse form nao e valido')
+                print('esse form e valido')
                 nome = curso_form.cleaned_data['nome']
                 descricao = curso_form.cleaned_data['descricao']
                 coordenador = curso_form.cleaned_data['coordenador']
@@ -93,8 +91,9 @@ class CursoCreateView(CreateView):
                 print('criou o objeto')
                 return redirect('app:cursos')
             else:
-                print('nao e valido')
-                return redirect('app:curso_form_create')
+                print('else nao e valido')
+                print(curso_form.errors)
+                return redirect('app:create')
 
 
 
