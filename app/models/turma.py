@@ -44,4 +44,4 @@ class Turma(models.Model):
         
 
     def __str__(self):
-        return f'{self.turma}'
+        return f'{self.turma} {self.semestre} {self.curso}'

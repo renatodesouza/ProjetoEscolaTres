@@ -120,7 +120,7 @@ class MatriculaAdmin(admin.ModelAdmin):
 @admin.register(Professor)
 class ProfessorAdmin(admin.ModelAdmin):
 
-    list_display = ('usuario', 'celular')
+    list_display = ('id', 'usuario', 'celular')
 
     fieldsets = [
         ("Informoções do Professor",        {'fields': ('usuario', 'celular')}),

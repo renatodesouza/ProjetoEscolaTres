@@ -227,6 +227,6 @@ class MensagemForm(forms.ModelForm):
 
     class Meta:
         model = Mensagem
-        fields = ['remetente', 'destinatario', 'assunto', 'mensagem', 'dt_envio']
+        fields = ['remetente', 'destinatario', 'assunto', 'mensagem']
 
     
