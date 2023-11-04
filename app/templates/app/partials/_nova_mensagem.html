@@ -1,0 +1,75 @@
+<!-- The Modal -->
+<div class="modal" id="modalNovaMensagem">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header w3-bar w3-theme-d2">
+          
+          <h4 class="modal-title">Nova mensagem:</h4>
+          <button type="button" class="btn-close " data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="d-flex justify-content-end">
+                <div class="dropdown">
+                  <button class="w3-button w3-theme dropdown-toggle" style="border-radius: 5px;" data-bs-toggle="dropdown">Professores</button>
+                  
+                  <ul class="dropdown-menu">
+                    {% for professor in professores %}
+                    <li>
+                      <a class="w3-bar-item w3-button destinatario-item" data-value="{{ professor.usuario.id }}">{{ professor.usuario.username }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+                <h5 id="IdRemetente">De: {{ aluno.usuario }}</h5>
+            </div>
+            <div class="col-sm-6">
+              <h5>Para: <span id="destinatario-nome"></span></h5>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-12">
+                <form action="{% url 'app:mensagem' %}" method="POST">
+                  {% csrf_token %}
+                    <div>
+                        <label class="form-label" for="">Assunto: </label>
+                        <input class="form-control" id="IdAssunto" name="assunto" type="text">
+                    </div>
+                    <div>
+                        <label class="form-label" for="">Mensagem</label>
+                        <textarea class="form-control" name="mensagem" id="IdMensagem" cols="30" rows="10"></textarea>
+                    </div>
+                    <hr>
+
+                    <input type="hidden" name="remetente" value="{{ user.id }}">
+                    <input type="hidden" name="destinatario" id="destinatario-input" value="">
+                    
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button class="btn btn-success" type="submit">Enviar</button>
+                        </div>
+                        <div class="col-sm-6 d-flex justify-content-end mb-3">
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                    
+                </form>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>

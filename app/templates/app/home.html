@@ -43,9 +43,16 @@
       <div class="mb-3">
         <a href="{% url 'app:my_logout' %}" class="btn btn-danger">Sair</a>
       </div>
-      <div class="mb-3">
-        <a href="{% url 'app:aluno' user.id %}" class="btn btn-success">Area do aluno</a>
-      </div>
+        {% if user.is_staff %}
+        <div class="mb-3">
+          <a href="{% url 'app:professor' user.id %}" class="btn btn-success">Administração</a>
+        </div>
+        {% elif not user.is_istaff %}
+        <div class="mb-3">
+          <a href="{% url 'app:aluno' user.id %}" class="btn btn-success">Area do aluno</a>
+        </div>
+        {% endif %}
+
       {% else %}
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModalLogin">
         Login
