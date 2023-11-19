@@ -5,6 +5,7 @@
 <!-- Navbar -->
 {% include 'app/partials/_usuario_navbar.html' %}
 {% include 'app/partials/_nova_mensagem.html' %}
+{% include 'app/partials/_mensagem.html' %}
 
 <!-- Navbar on small screens -->
 <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
@@ -192,10 +193,11 @@
       <!-- ATIVIDADE PARA ENTREGAR -->
       <div class="w3-card w3-round w3-white w3-center">
         <p>Mensagens</p>
-        {% for mensagem in mensagens %}
+        {% for mensagem in mensagens_recebidas %}
         <div class="w3-container">
-          <img src="/w3images/avatar6.png" alt="Avatar" style="width:50%"><br>
-          <span>{{ mensagem.destinatario }}</span>
+          
+          <span>{{ mensagem.remetente }}</span>
+          <p>Assunto: {{ mensagem.assunto }}</p>
           <div class="w3-row w3-opacity">
             <div class="w3-half">
               <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>

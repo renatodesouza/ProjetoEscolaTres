@@ -24,48 +24,46 @@
         </div>
     </header>
     <div class=" w3-light-grey">
-        <form action="{% url 'app:cria_entrega_atividade' %}" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="mb-3">
-                            <label for="{{ entrega_form.id_for_label }}">{{ entrega_form.resposta.label }}</label>
-                            <textarea name="{{ entrega_form.resposta.name }}" placeholder="Campo para resposta OBS: Opcional" class="form-control" cols="30" rows="8">{{ entrega_form.reposta.value }}</textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
+      <form action="{% url 'app:cria_entrega_atividade' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+          <div class="row">
+              <div class="col-sm-12">
                   <div class="mb-3">
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <input type="hidden" id="IdProfessor" value="" name="professor">
-                      </div>
-                      <div class="col-sm-3">
-                        <input type="hidden" id="IdAluno" value="" name="aluno">
-                      </div>
-                    
-                      <div class="col-sm-3">
-                        <input type="hidden" id="Atividade" value="" name="atividade">
-                      </div>
-                      <div class="col-sm-3">
-                        <input type="hidden" id="IdDataAtual" name="data_atual">
-                      </div>
-                    </div>
+                      <label for="{{ entrega_form.id_for_label }}">{{ entrega_form.resposta.label }}</label>
+                      <textarea name="{{ entrega_form.resposta.name }}" placeholder="Campo para resposta OBS: Opcional" class="form-control" cols="30" rows="8">{{ entrega_form.reposta.value }}</textarea>
                   </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="mb-3">
+              <div class="row">
+                <div class="col-sm-3">
+                  <input type="hidden" id="IdProfessor" value="" name="professor">
                 </div>
-                <div class="row">
-                  <div class="col-sm-5">
-                    <input type="file" name="arquivo">
-                  </div>
-                  <div class="col-sm-5 position-absolute bottom-0 end-0 p-1">
-                    <button class="btn btn-success" type="submit">Enviar</button>
-                  </div>
+                <div class="col-sm-3">
+                  <input type="hidden" id="IdAluno" value="" name="aluno">
                 </div>
+              
+                <div class="col-sm-3">
+                  <input type="hidden" id="Atividade" value="" name="atividade">
+                </div>
+                <div class="col-sm-3">
+                  <input type="hidden" id="IdDataAtual" name="data_atual">
+                </div>
+              </div>
             </div>
-            
-            
-        </form>
+          </div>
+          <div class="row">
+            <div class="col-sm-5">
+              <input type="file" name="arquivo">
+            </div>
+            <div class="col-sm-5 position-absolute bottom-0 end-0 p-1">
+              <button class="btn btn-success" type="submit">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
     <footer class="w3-container w3-theme-d2">
         <p id="data-atual"></p>

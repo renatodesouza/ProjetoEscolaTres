@@ -3,8 +3,8 @@
       <div class="modal-content">
   
         <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Notas e Faltas</h4>
+        <div class="modal-header w3-bar w3-theme-d2">
+          <h4 class="modal-title">Boletim</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
   
@@ -19,17 +19,14 @@
                 <h3>Curso: {{ curso }}</h3>
                 <p>{{ turma.turma }} | {{ turma.semestre }}</p>
               </div>
-            </div>            
+            </div><hr>            
             <table class="table  table-striped">
               <thead>
                 <tr>
                   <th scope="col">Disciplina</th>
                   <th>Turma</th>
                   <th>C.H</th>
-                  <th>Media</th>
-                  <th>Prova</th>
-                  <th>TF</th>
-                  <th>MF</th>
+                  
                   <th>Situação</th>
                 </tr>
               </thead>
@@ -56,6 +53,11 @@
                               <th>Data Entrega</th>
                               <th>Status</th>
                               <th>Nota</th>
+                              <th>Media</th>
+                              <th>Prova</th>
+                              <th>TF</th>
+                              <th>MF</th>
+                              <th>Situação</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -76,6 +78,11 @@
                                 {% endif %}
 
                                 <td>{{ entrega.nota }}</td>
+                                <td>media</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                               </tr>
                               {% endif %}
                             {% endfor %}
@@ -92,7 +99,7 @@
         
   
         <!-- Modal footer -->
-        <div class="modal-footer">
+        <div class="modal-footer w3-bar w3-theme-d2">
           <div class="container"> 
             <div class="row">
               <div class="col-sm-9">
