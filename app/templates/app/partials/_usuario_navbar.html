@@ -11,16 +11,24 @@
 
       <div class="w3-dropdown-hover w3-hide-small">
         <button class="w3-button w3-padding-large" title="Messages" >
-          <i class="fa fa-envelope"></i><span class="w3-badge w3-right w3-small w3-green">{{ mensagens.count }}</span></button>
+          <i class="fa fa-envelope"></i><span class="w3-badge w3-right w3-small w3-green">{{ mensagens_recebidas.count }}</span></button>
                
           <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
             <a href="#" class="w3-bar-item w3-button" data-bs-toggle="modal" data-bs-target="#modalNovaMensagem">
               <i class=""></i>Nova Mensagem
             </a>
             <hr>
-            {% for mensagem in mensagens %}
-              <a href="#" class="w3-bar-item w3-button " data-bs-toggle="modal" data-bs-target="#modalMensagem"><i class=""></i>Mensagem: {{ mensagem.assunto }}</a>
-            {% endfor %}
+            {% if not mensagens_recebidas %}
+            <a href="" class="w3-bar-item w3-button">Não há mensagens</a>
+            {% else %}
+              {% for mensagem in mensagens_recebidas %}
+                <a href="#" class="w3-bar-item w3-button " data-value="mensagem" 
+                  onclick="abrirModalMensagem('{{ mensagem.assunto }}', '{{ mensagem.remetente }}',
+                  '{{ mensagem.mensagem }}', '{{ mensagem.dt_envio }}')">
+                <i class=""></i>Mensagem: {{ mensagem.assunto }}</a>
+              {% endfor %}
+            {% endif %}
+            
           </div>
       </div>
 
@@ -44,28 +52,3 @@
   </div>
 
 
-<!-- The Modal -->
-<div class="modal" id="modalMensagem">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        
-        <h4 class="modal-title"></h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        Modal body..
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-      </div>
-
-    </div>
-  </div>
-</div>

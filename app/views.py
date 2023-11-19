@@ -129,6 +129,7 @@ class AlunoView(DetailView):
         
         context['professores'] = Professor.objects.all()
         context['mensagens'] = Mensagem.objects.filter(remetente=usuario.id).order_by('?')[:3]
+        context['mensagens_recebidas'] = Mensagem.objects.filter(destinatario=usuario)
         context['entrega_form'] = EntregaAtividadeForm()
 
         entregas = EntregaAtividade.objects.filter(aluno__usuario=usuario, atividade__in=context['atividades'])
@@ -327,6 +328,9 @@ def cria_entrega_atividade(request):
 
         
     return redirect('app:aluno', aluno_id)
+
+def edita_entrega_atividade(request):
+    pass
 
 
 

@@ -1,26 +1,40 @@
-
-<form action="{% url 'app:mensagem' %}" method="POST">
-    {% csrf_token %}
-    <div>
-        <label for="">Aluno</label>
-        <input type="text" name="remetente" id="">
+<!-- The Modal -->
+<div class="modal" id="modalMensagem">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header w3-bar w3-theme-d2">
+          <h4 class="modal-title" id="idAssunto"></h4>
+          <button type="button" class="btn-close" onclick="fecharModalMensagem()"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <h5 id="idRemetente"></h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <textarea name="" id="idMensagem" cols="55" rows="10" disabled></textarea>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Modal footer -->
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6">
+              <button class="btn btn-success" type="submit" disabled>Responder</button>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end mb-3">
+              <button type="button" class="btn btn-danger" onclick="fecharModalMensagem()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-        <label for="">Professor</label>
-        {{ mensagem_form.destinatario }}
-    </div>
-    <div>
-        <label for="">Mensagem</label>
-        <textarea name="mensagem" id="" cols="30" rows="10"></textarea>
-    </div>
-    <button type="submit">Enviar</button>
-</form>
-
-
-<div>
-    {% for mensagem in mensagens %}
-    <p>Remetente: {{ mensagem.aluno }}</p>
-    <p>Destinatario: {{  mensagem.professor }}</p>
-    <p>{{ mensagem.mensagem }}</p>
-    {% endfor %}
-</div>
+  </div>
